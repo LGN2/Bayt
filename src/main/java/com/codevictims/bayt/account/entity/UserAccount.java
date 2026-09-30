@@ -28,5 +28,10 @@ public class UserAccount extends BaseEntity{
     @Column(nullable = false)
     public boolean active;
 
+    @Column(nullable = false)
+    public boolean taxRegistered;
+
+
+
 
 }
