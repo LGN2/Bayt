@@ -11,6 +11,9 @@ public class BuildingAccess extends BaseEntity {
     @Column(nullable = false)
     public Long userId;
 
+    @Column(nullable = false)
+    public boolean canWrite;
+
 
 
 }
