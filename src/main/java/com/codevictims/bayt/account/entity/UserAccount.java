@@ -19,7 +19,8 @@ public class UserAccount extends BaseEntity{
     @Column(nullable = false)
     public String displayName = "";
 
-
+    @Column(nullable = false, length = 40)
+    public String role = "";
 
 
 }
