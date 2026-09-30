@@ -14,4 +14,19 @@ public class  AccountService {
     private final PasswordEncoder passwords;
     private final AuditService audit;
 
+    public AccountService(
+            PersistenceSupport db,
+            Access access,
+            PasswordEncoder passwords,
+            AuditService audit,
+            UserRepository userRepository,
+            BuildingAccessRepository buildingAccessRepository) {
+
+        this.userRepository = userRepository;
+        this.buildingAccessRepository = buildingAccessRepository;
+        this.db = db;
+        this.access = access;
+        this.passwords = passwords;
+        this.audit = audit;
+
 }
