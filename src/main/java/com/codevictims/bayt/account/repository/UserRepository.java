@@ -1,4 +1,4 @@
 package com.codevictims.bayt.account.repository;
 
-public class UserRepository {
+public class  UserRepository {
 }
