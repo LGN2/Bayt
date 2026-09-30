@@ -16,4 +16,10 @@ public class UserAccount extends BaseEntity{
     @JsonIgnore
     public String passwordHash = "";
 
+    @Column(nullable = false)
+    public String displayName = "";
+
+
+
+
 }
