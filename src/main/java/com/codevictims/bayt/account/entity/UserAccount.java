@@ -25,5 +25,8 @@ public class UserAccount extends BaseEntity{
     @Column(nullable = true)
     public Long ownerId;
 
+    @Column(nullable = false)
+    public boolean active;
+
 
 }
