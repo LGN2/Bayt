@@ -1,21 +1,36 @@
+// Place deposit business logic in the billing service package.
 package com.property.billing.service;
 
+// Use the DepositRecord entity for database records.
 import com.property.billing.entity.DepositRecord;
+// Use the repository that saves and reads deposits.
 import com.property.billing.repository.DepositRecordRepository;
+// Use the request data for deposit updates.
 import com.property.billing.request.UpdateDepositRequest;
+// Use the response object returned by service methods.
 import com.property.billing.response.DepositResponse;
+// Mark this class as a Spring service.
 import org.springframework.stereotype.Service;
 
+// Handle deposit money values.
 import java.math.BigDecimal;
+// Store the current date for refunds.
 import java.time.LocalDate;
+// Build response lists manually.
 import java.util.ArrayList;
+// Return lists of deposit responses.
 import java.util.List;
 
+// Register this class as a Spring service bean.
 @Service
+// Handle business logic for deposit records.
 public class DepositService {
+    // Store the repository used for deposit data access.
     private final DepositRecordRepository depositRepository;
 
+    // Receive the deposit repository through constructor injection.
     public DepositService(DepositRecordRepository depositRepository) {
+        // Keep the repository for later service operations.
         this.depositRepository = depositRepository;
     }
 
