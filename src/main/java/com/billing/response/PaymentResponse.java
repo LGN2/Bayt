@@ -31,9 +31,11 @@ public class PaymentResponse {
 
     // Return the payment ID.
     public Long getId() {
+        // Send the payment ID to the caller.
         return id; }
     // Set the payment ID in the response.
     public void setId(Long id) {
+        // Store the ID copied from the payment entity.
         this.id = id; }
     // Return the tenant ID.
     public Long getTenantId() {
@@ -49,9 +51,11 @@ public class PaymentResponse {
         this.leaseId = leaseId; }
     // Return the payment amount.
     public BigDecimal getAmount() {
+        // Send the payment amount to the caller.
         return amount; }
     // Set the payment amount in the response.
     public void setAmount(BigDecimal amount) {
+        // Store the amount copied from the payment entity.
         this.amount = amount; }
     // Return the payment method.
     public PaymentMethod getMethod() {
@@ -61,9 +65,11 @@ public class PaymentResponse {
         this.method = method; }
     // Return the payment status.
     public PaymentStatus getStatus() {
+        // Send the current payment status to the caller.
         return status; }
     // Set the payment status in the response.
     public void setStatus(PaymentStatus status) {
+        // Store the status copied from the payment entity.
         this.status = status; }
     // Return the payment date.
     public LocalDateTime getPaymentDate() {
