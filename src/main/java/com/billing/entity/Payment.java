@@ -1,9 +1,9 @@
-package com.property.billing.entity;
+package main.java.com.billing.entity;
 
 // Use the enum that stores how the payment was made.
-import com.property.billing.type.PaymentMethod;
+import main.java.com.billing.type.PaymentMethod;
 // Use the enum that stores the payment state.
-import com.property.billing.type.PaymentStatus;
+import main.java.com.billing.type.PaymentStatus;
 // Use JPA annotations to map this class to the database.
 import jakarta.persistence.*;
 // Store money values with decimal precision.

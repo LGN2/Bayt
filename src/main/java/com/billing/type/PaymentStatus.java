@@ -1,4 +1,4 @@
-package com.property.billing.type;
+package main.java.com.billing.type;
 
 // Define the possible states of a payment.
 public enum PaymentStatus {

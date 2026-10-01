@@ -1,4 +1,4 @@
-package com.property.billing.type;
+package main.java.com.billing.type;
 
 // Define the supported ways a payment can be made.
 public enum PaymentMethod {

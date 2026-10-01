@@ -1,7 +1,7 @@
-package com.property.billing.repository;
+package main.java.com.billing.repository;
 
 // Use the Payment entity managed by this repository.
-import com.property.billing.entity.Payment;
+import main.java.com.billing.entity.Payment;
 // Use Spring Data JPA repository features.
 import org.springframework.data.jpa.repository.JpaRepository;
 // Return multiple payment records.

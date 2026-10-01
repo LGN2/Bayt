@@ -1,7 +1,7 @@
-package com.property.billing.request;
+package main.java.com.billing.request;
 
 // Use the selected method for the new payment.
-import com.property.billing.type.PaymentMethod;
+import main.java.com.billing.type.PaymentMethod;
 // Require fields to be present in the request.
 import jakarta.validation.constraints.NotNull;
 // Require the amount to be greater than zero.
@@ -33,23 +33,33 @@ public class CreatePaymentRequest {
     private String referenceNumber;
 
     // Return the tenant ID from the request.
-    public Long getTenantId() { return tenantId; }
+    public Long getTenantId() {
+        return tenantId; }
     // Set the tenant ID on the request.
-    public void setTenantId(Long tenantId) { this.tenantId = tenantId; }
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId; }
     // Return the lease ID from the request.
-    public Long getLeaseId() { return leaseId; }
+    public Long getLeaseId() {
+        return leaseId; }
     // Set the lease ID on the request.
-    public void setLeaseId(Long leaseId) { this.leaseId = leaseId; }
+    public void setLeaseId(Long leaseId) {
+        this.leaseId = leaseId; }
     // Return the requested payment amount.
-    public BigDecimal getAmount() { return amount; }
+    public BigDecimal getAmount() {
+        return amount; }
     // Set the requested payment amount.
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount; }
     // Return the requested payment method.
-    public PaymentMethod getMethod() { return method; }
+    public PaymentMethod getMethod() {
+        return method; }
     // Set the requested payment method.
-    public void setMethod(PaymentMethod method) { this.method = method; }
+    public void setMethod(PaymentMethod method) {
+        this.method = method; }
     // Return the optional reference number.
-    public String getReferenceNumber() { return referenceNumber; }
+    public String getReferenceNumber() {
+        return referenceNumber; }
     // Set the optional reference number.
-    public void setReferenceNumber(String referenceNumber) { this.referenceNumber = referenceNumber; }
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber; }
 }
