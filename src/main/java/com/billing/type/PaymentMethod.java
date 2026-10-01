@@ -1,3 +1,4 @@
+// Place payment method values in the billing type package.
 package main.java.com.billing.type;
 
 // Define the supported ways a payment can be made.
