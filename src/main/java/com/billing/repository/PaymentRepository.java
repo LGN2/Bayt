@@ -10,6 +10,7 @@ import java.util.List;
 
 // Provide database access for Payment entities with Long IDs.
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
+    // Use the tenant ID parameter to select matching payments.
     // Find payments for one tenant, newest payment date first.
     List<Payment> findByTenantIdOrderByPaymentDateDesc(Long tenantId);
 }
