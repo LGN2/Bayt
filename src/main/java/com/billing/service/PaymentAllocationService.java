@@ -51,11 +51,16 @@ public class PaymentAllocationService {
         // Load rent dues for the payment lease, oldest due date first.
         List<RentDue> dues = rentDueRepository.findByLeaseIdOrderByDueDateAsc(payment.getLeaseId());
 
+        // Process each rent due record in due date order.
         for (RentDue due : dues) {
+            // Check whether there is still money left to allocate.
             if (remainingPayment.compareTo(BigDecimal.ZERO) <= 0) {
+                // Stop once the full payment amount has been used.
                 break;
             }
+            // Check whether this rent due is already fully paid.
             if (due.isPaid()) {
+                // Skip rent dues that do not need more payment.
                 continue;
             }
 
