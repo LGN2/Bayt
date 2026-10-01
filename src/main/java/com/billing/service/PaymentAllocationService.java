@@ -74,10 +74,15 @@ public class PaymentAllocationService {
             // Save the updated rent due record.
             rentDueRepository.save(due);
 
+            // Create a new allocation record.
             PaymentAllocation allocation = new PaymentAllocation();
+            // Link the allocation to the payment.
             allocation.setPayment(payment);
+            // Link the allocation to the current rent due.
             allocation.setRentDue(due);
+            // Store the amount assigned to this rent due.
             allocation.setAllocatedAmount(amountToAllocate);
+            // Save the allocation in the database.
             allocation = allocationRepository.save(allocation);
 
             responses.add(toResponse(allocation));
