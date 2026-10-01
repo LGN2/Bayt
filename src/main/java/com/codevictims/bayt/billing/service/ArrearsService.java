@@ -67,27 +67,45 @@ public class ArrearsService {
         return responses;
     }
 
+    // Build the financial summary for rent records.
     public FinancialSummaryResponse getSummary() {
+        // Start the total rent due at zero.
         BigDecimal totalDue = BigDecimal.ZERO;
+        // Start the total paid amount at zero.
         BigDecimal totalPaid = BigDecimal.ZERO;
+        // Start the total outstanding amount at zero.
         BigDecimal totalOutstanding = BigDecimal.ZERO;
+        // Start the overdue item count at zero.
         int overdue = 0;
+        // Use today's date to check overdue records.
         LocalDate today = LocalDate.now();
 
+        // Read every rent due record for summary totals.
         for (RentDue due : rentDueRepository.findAll()) {
+            // Add this rent amount to the total due amount.
             totalDue = totalDue.add(due.getAmount());
+            // Add this paid amount to the total paid amount.
             totalPaid = totalPaid.add(due.getPaidAmount());
+            // Add this outstanding amount to the total outstanding amount.
             totalOutstanding = totalOutstanding.add(due.getOutstandingAmount());
+            // Count this record if it is overdue and unpaid.
             if (due.getDueDate().isBefore(today) && !due.isPaid()) {
+                // Increase the overdue count.
                 overdue++;
             }
         }
 
+        // Create the summary response object.
         FinancialSummaryResponse response = new FinancialSummaryResponse();
+        // Store the total rent due in the response.
         response.setTotalRentDue(totalDue);
+        // Store the total paid amount in the response.
         response.setTotalPaid(totalPaid);
+        // Store the total outstanding amount in the response.
         response.setTotalOutstanding(totalOutstanding);
+        // Store the overdue item count in the response.
         response.setOverdueItems(overdue);
+        // Return the completed financial summary.
         return response;
     }
 }
