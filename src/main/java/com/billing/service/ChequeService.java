@@ -48,17 +48,28 @@ public class ChequeService {
         this.historyRepository = historyRepository;
     }
 
+    // Create a new cheque from request values.
     public ChequeResponse create(CreateChequeRequest request) {
+        // Build a new empty cheque entity.
         Cheque cheque = new Cheque();
+        // Copy the tenant ID from the request.
         cheque.setTenantId(request.getTenantId());
+        // Copy the cheque number from the request.
         cheque.setChequeNumber(request.getChequeNumber());
+        // Copy the bank name from the request.
         cheque.setBankName(request.getBankName());
+        // Copy the cheque date from the request.
         cheque.setChequeDate(request.getChequeDate());
+        // Copy the cheque amount from the request.
         cheque.setAmount(request.getAmount());
+        // Start the cheque in the received status.
         cheque.setStatus(ChequeStatus.RECEIVED);
+        // Save the new cheque in the database.
         cheque = chequeRepository.save(cheque);
 
+        // Record the first status history entry for this cheque.
         saveHistory(cheque, null, ChequeStatus.RECEIVED, "Cheque received");
+        // Convert the saved cheque into the API response.
         return toResponse(cheque);
     }
 
