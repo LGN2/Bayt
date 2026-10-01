@@ -1,3 +1,4 @@
+// Place payment request objects in the billing request package.
 package main.java.com.billing.request;
 
 // Use the selected method for the new payment.
