@@ -73,14 +73,22 @@ public class ChequeService {
         return toResponse(cheque);
     }
 
+    // Change the status of an existing cheque.
     public ChequeResponse changeStatus(Long id, ChequeTransitionRequest request) {
+        // Search for the cheque by its ID.
         Cheque cheque = chequeRepository.findById(id)
+                // Stop if no cheque exists for this ID.
                 .orElseThrow(() -> new IllegalArgumentException("Cheque not found"));
 
+        // Remember the current status before changing it.
         ChequeStatus oldStatus = cheque.getStatus();
+        // Set the new status from the request.
         cheque.setStatus(request.getNewStatus());
+        // Save the cheque with the updated status.
         cheque = chequeRepository.save(cheque);
+        // Record the status change in cheque history.
         saveHistory(cheque, oldStatus, request.getNewStatus(), request.getNote());
+        // Return the updated cheque details.
         return toResponse(cheque);
     }
 
