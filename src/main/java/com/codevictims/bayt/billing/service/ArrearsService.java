@@ -36,21 +36,34 @@ public class ArrearsService {
         this.rentDueRepository = rentDueRepository;
     }
 
+    // Get all overdue rent records that are not fully paid.
     public List<ArrearsResponse> getArrears() {
+        // Prepare a list for arrears responses.
         List<ArrearsResponse> responses = new ArrayList<>();
+        // Use today's date to find overdue rent.
         LocalDate today = LocalDate.now();
 
+        // Read rent due records with due dates before today.
         for (RentDue due : rentDueRepository.findByDueDateBeforeOrderByDueDateAsc(today)) {
+            // Only include rent records that are still unpaid.
             if (!due.isPaid()) {
+                // Create a response for one overdue rent record.
                 ArrearsResponse response = new ArrearsResponse();
+                // Copy the rent due ID into the response.
                 response.setRentDueId(due.getId());
+                // Copy the lease ID into the response.
                 response.setLeaseId(due.getLeaseId());
+                // Copy the original due date into the response.
                 response.setDueDate(due.getDueDate());
+                // Calculate how many days the rent is late.
                 response.setDaysLate(ChronoUnit.DAYS.between(due.getDueDate(), today));
+                // Copy the unpaid amount into the response.
                 response.setOutstandingAmount(due.getOutstandingAmount());
+                // Add the arrears response to the result list.
                 responses.add(response);
             }
         }
+        // Return all overdue unpaid rent records.
         return responses;
     }
 
