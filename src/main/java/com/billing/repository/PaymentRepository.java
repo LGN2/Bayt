@@ -1,3 +1,4 @@
+// Place payment database access code in the billing repository package.
 package main.java.com.billing.repository;
 
 // Use the Payment entity managed by this repository.
