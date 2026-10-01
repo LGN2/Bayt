@@ -32,6 +32,7 @@ public class PaymentService {
 
     // Receive required services through constructor injection.
     public PaymentService(PaymentRepository paymentRepository,
+                          // Receive the service that applies saved payments.
                           PaymentAllocationService paymentAllocationService) {
         // Keep the payment repository for later use.
         this.paymentRepository = paymentRepository;
@@ -40,6 +41,7 @@ public class PaymentService {
     }
 
     // Create a new payment from the request data.
+    // Use the request object as the source for payment values.
     public PaymentResponse create(CreatePaymentRequest request) {
         // Create a new empty payment entity.
         Payment payment = new Payment();
@@ -80,6 +82,7 @@ public class PaymentService {
     }
 
     // Get payments for one tenant.
+    // Use the tenant ID to filter payment records.
     public List<PaymentResponse> getByTenant(Long tenantId) {
         // Prepare a list for the tenant's payment responses.
         List<PaymentResponse> responses = new ArrayList<>();
@@ -93,6 +96,7 @@ public class PaymentService {
     }
 
     // Get one payment by its ID.
+    // Use the provided ID to search for one payment.
     public PaymentResponse getById(Long id) {
         // Search for the payment in the repository.
         Payment payment = paymentRepository.findById(id)
@@ -103,6 +107,7 @@ public class PaymentService {
     }
 
     // Convert a Payment entity into a PaymentResponse.
+    // Read values from the entity and copy them into the response.
     private PaymentResponse toResponse(Payment payment) {
         // Create an empty response object.
         PaymentResponse response = new PaymentResponse();
