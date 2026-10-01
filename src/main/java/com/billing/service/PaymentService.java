@@ -1,3 +1,4 @@
+// Place payment business logic in the billing service package.
 package main.java.com.billing.service;
 
 // Use the Payment entity for database records.
