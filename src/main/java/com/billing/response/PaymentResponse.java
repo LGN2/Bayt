@@ -1,3 +1,4 @@
+// Place payment response objects in the billing response package.
 package main.java.com.billing.response;
 
 // Include the payment method in the API response.
