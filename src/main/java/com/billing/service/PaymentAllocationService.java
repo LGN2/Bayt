@@ -64,10 +64,14 @@ public class PaymentAllocationService {
                 continue;
             }
 
+            // Read how much is still unpaid for this rent due.
             BigDecimal outstanding = due.getOutstandingAmount();
+            // Allocate only what the payment can cover or what the rent due needs.
             BigDecimal amountToAllocate = remainingPayment.min(outstanding);
 
+            // Add the allocated amount to the rent due paid amount.
             due.setPaidAmount(due.getPaidAmount().add(amountToAllocate));
+            // Save the updated rent due record.
             rentDueRepository.save(due);
 
             PaymentAllocation allocation = new PaymentAllocation();
