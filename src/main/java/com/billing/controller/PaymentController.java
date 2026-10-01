@@ -1,3 +1,4 @@
+// Place payment REST endpoints in the billing controller package.
 package main.java.com.billing.controller;
 
 // Use the request object that carries new payment details.
