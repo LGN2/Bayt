@@ -92,26 +92,43 @@ public class ChequeService {
         return toResponse(cheque);
     }
 
+    // Get all cheques as response objects.
     public List<ChequeResponse> getAll() {
+        // Prepare a list for cheque responses.
         List<ChequeResponse> responses = new ArrayList<>();
+        // Read every cheque from the repository.
         for (Cheque cheque : chequeRepository.findAll()) {
+            // Convert each cheque and add it to the list.
             responses.add(toResponse(cheque));
         }
+        // Return all converted cheque records.
         return responses;
     }
 
+    // Get status history entries for one cheque.
     public List<ChequeStatusHistoryResponse> getHistory(Long chequeId) {
+        // Prepare a list for history responses.
         List<ChequeStatusHistoryResponse> responses = new ArrayList<>();
+        // Load history entries for the cheque, newest change first.
         for (ChequeStatusHistory item : historyRepository.findByChequeIdOrderByChangedAtDesc(chequeId)) {
+            // Create a response for one history item.
             ChequeStatusHistoryResponse response = new ChequeStatusHistoryResponse();
+            // Copy the history ID into the response.
             response.setId(item.getId());
+            // Copy the related cheque ID into the response.
             response.setChequeId(item.getCheque().getId());
+            // Copy the previous status into the response.
             response.setOldStatus(item.getOldStatus());
+            // Copy the new status into the response.
             response.setNewStatus(item.getNewStatus());
+            // Copy the change time into the response.
             response.setChangedAt(item.getChangedAt());
+            // Copy the note into the response.
             response.setNote(item.getNote());
+            // Add this history response to the list.
             responses.add(response);
         }
+        // Return all converted history entries.
         return responses;
     }
 
