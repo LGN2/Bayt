@@ -94,24 +94,40 @@ public class DepositService {
         return toResponse(depositRepository.save(deposit));
     }
 
+    // Get all deposit records as response objects.
     public List<DepositResponse> getAll() {
+        // Prepare a list for deposit responses.
         List<DepositResponse> responses = new ArrayList<>();
+        // Read every deposit record from the repository.
         for (DepositRecord deposit : depositRepository.findAll()) {
+            // Convert each deposit and add it to the list.
             responses.add(toResponse(deposit));
         }
+        // Return all converted deposit records.
         return responses;
     }
 
+    // Convert a DepositRecord entity into a DepositResponse.
     private DepositResponse toResponse(DepositRecord deposit) {
+        // Create an empty deposit response.
         DepositResponse response = new DepositResponse();
+        // Copy the deposit ID into the response.
         response.setId(deposit.getId());
+        // Copy the tenant ID into the response.
         response.setTenantId(deposit.getTenantId());
+        // Copy the held amount into the response.
         response.setHeldAmount(deposit.getHeldAmount());
+        // Copy the deduction amount into the response.
         response.setDeductionAmount(deposit.getDeductionAmount());
+        // Copy the refunded amount into the response.
         response.setRefundedAmount(deposit.getRefundedAmount());
+        // Copy the calculated remaining amount into the response.
         response.setRemainingAmount(deposit.getRemainingAmount());
+        // Copy the refund date into the response.
         response.setRefundDate(deposit.getRefundDate());
+        // Copy the note into the response.
         response.setNote(deposit.getNote());
+        // Return the completed deposit response.
         return response;
     }
 }
