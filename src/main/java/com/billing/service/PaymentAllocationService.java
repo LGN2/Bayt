@@ -42,9 +42,13 @@ public class PaymentAllocationService {
         this.rentDueRepository = rentDueRepository;
     }
 
+    // Allocate one payment across unpaid rent due records.
     public List<PaymentAllocationResponse> allocatePayment(Payment payment) {
+        // Start with the full payment amount available to allocate.
         BigDecimal remainingPayment = payment.getAmount();
+        // Prepare the responses for created allocations.
         List<PaymentAllocationResponse> responses = new ArrayList<>();
+        // Load rent dues for the payment lease, oldest due date first.
         List<RentDue> dues = rentDueRepository.findByLeaseIdOrderByDueDateAsc(payment.getLeaseId());
 
         for (RentDue due : dues) {
