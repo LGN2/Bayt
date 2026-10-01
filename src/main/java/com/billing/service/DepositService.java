@@ -84,10 +84,13 @@ public class DepositService {
             deposit.setNote(request.getNote());
         }
 
+        // Check that deductions and refunds do not exceed the held amount.
         if (deposit.getRemainingAmount().compareTo(BigDecimal.ZERO) < 0) {
+            // Stop when the deposit would become negative.
             throw new IllegalArgumentException("Deduction and refund cannot exceed held amount");
         }
 
+        // Save the updated deposit and convert it to a response.
         return toResponse(depositRepository.save(deposit));
     }
 
