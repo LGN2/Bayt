@@ -1,22 +1,38 @@
+// Place arrears business logic in the billing service package.
 package com.property.billing.service;
 
+// Use rent due records for arrears calculations.
 import com.property.billing.entity.RentDue;
+// Use the repository that reads rent due records.
 import com.property.billing.repository.RentDueRepository;
+// Use the response object for overdue rent records.
 import com.property.billing.response.ArrearsResponse;
+// Use the response object for financial totals.
 import com.property.billing.response.FinancialSummaryResponse;
+// Mark this class as a Spring service.
 import org.springframework.stereotype.Service;
 
+// Handle total money values.
 import java.math.BigDecimal;
+// Compare rent due dates with today's date.
 import java.time.LocalDate;
+// Calculate how many days a rent record is late.
 import java.time.temporal.ChronoUnit;
+// Build response lists manually.
 import java.util.ArrayList;
+// Return lists of arrears responses.
 import java.util.List;
 
+// Register this class as a Spring service bean.
 @Service
+// Handle arrears calculations.
 public class ArrearsService {
+    // Store the repository used for rent due records.
     private final RentDueRepository rentDueRepository;
 
+    // Receive the rent due repository through constructor injection.
     public ArrearsService(RentDueRepository rentDueRepository) {
+        // Keep the repository for later service operations.
         this.rentDueRepository = rentDueRepository;
     }
 
