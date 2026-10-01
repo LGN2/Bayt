@@ -41,12 +41,20 @@ public class PaymentAllocation {
     // Provide the empty constructor required by JPA.
     public PaymentAllocation() {}
 
+    // Return the allocation ID.
     public Long getId() { return id; }
+    // Set the allocation ID.
     public void setId(Long id) { this.id = id; }
+    // Return the linked payment.
     public Payment getPayment() { return payment; }
+    // Set the payment linked to this allocation.
     public void setPayment(Payment payment) { this.payment = payment; }
+    // Return the linked rent due record.
     public RentDue getRentDue() { return rentDue; }
+    // Set the rent due record linked to this allocation.
     public void setRentDue(RentDue rentDue) { this.rentDue = rentDue; }
+    // Return the amount allocated to the rent due.
     public BigDecimal getAllocatedAmount() { return allocatedAmount; }
+    // Set the amount allocated to the rent due.
     public void setAllocatedAmount(BigDecimal allocatedAmount) { this.allocatedAmount = allocatedAmount; }
 }
