@@ -132,26 +132,45 @@ public class ChequeService {
         return responses;
     }
 
+    // Save one cheque status history record.
     private void saveHistory(Cheque cheque, ChequeStatus oldStatus,
+                             // Receive the new status and note for the history entry.
                              ChequeStatus newStatus, String note) {
+        // Create a new history entity.
         ChequeStatusHistory history = new ChequeStatusHistory();
+        // Link the history entry to the cheque.
         history.setCheque(cheque);
+        // Store the previous status.
         history.setOldStatus(oldStatus);
+        // Store the new status.
         history.setNewStatus(newStatus);
+        // Store the current date and time as the change time.
         history.setChangedAt(LocalDateTime.now());
+        // Store the note for the status change.
         history.setNote(note);
+        // Save the history entry in the database.
         historyRepository.save(history);
     }
 
+    // Convert a Cheque entity into a ChequeResponse.
     private ChequeResponse toResponse(Cheque cheque) {
+        // Create an empty cheque response.
         ChequeResponse response = new ChequeResponse();
+        // Copy the cheque ID into the response.
         response.setId(cheque.getId());
+        // Copy the tenant ID into the response.
         response.setTenantId(cheque.getTenantId());
+        // Copy the cheque number into the response.
         response.setChequeNumber(cheque.getChequeNumber());
+        // Copy the bank name into the response.
         response.setBankName(cheque.getBankName());
+        // Copy the cheque date into the response.
         response.setChequeDate(cheque.getChequeDate());
+        // Copy the cheque amount into the response.
         response.setAmount(cheque.getAmount());
+        // Copy the cheque status into the response.
         response.setStatus(cheque.getStatus());
+        // Return the completed response object.
         return response;
     }
 }
