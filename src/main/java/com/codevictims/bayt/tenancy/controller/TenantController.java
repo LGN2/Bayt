@@ -2,10 +2,10 @@ package com.codevictims.bayt.tenancy.controller;
 
 import com.codevictims.bayt.common.dto.PageSlice;
 import com.codevictims.bayt.common.mapper.RequestMapper;
-import com.codevictims.bayt.tenancy.dto.request.CreateTenantRequest;
-import com.codevictims.bayt.tenancy.dto.response.TenantResponse;
 import com.codevictims.bayt.tenancy.entity.Tenant;
 import com.codevictims.bayt.tenancy.mapper.TenantMapper;
+import com.codevictims.bayt.tenancy.request.CreateTenantRequest;
+import com.codevictims.bayt.tenancy.response.TenantResponse;
 import com.codevictims.bayt.tenancy.service.TenantService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +34,16 @@ public class TenantController {
                 page,
                 size,
                 q,
-                r -> r.toString()
+                Tenant::toString
         ).map(TenantMapper::toResponse);
     }
 
     @GetMapping("/{id}")
     public TenantResponse get(@PathVariable Long id) {
-        Tenant tenant = service.get(id);
 
-        return TenantMapper.toResponse(tenant);
+        return TenantMapper.toResponse(
+                service.get(id)
+        );
     }
 
     @PostMapping
