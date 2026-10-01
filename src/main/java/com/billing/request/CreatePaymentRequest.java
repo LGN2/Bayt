@@ -35,9 +35,11 @@ public class CreatePaymentRequest {
 
     // Return the tenant ID from the request.
     public Long getTenantId() {
+        // Give the service the tenant ID value.
         return tenantId; }
     // Set the tenant ID on the request.
     public void setTenantId(Long tenantId) {
+        // Save the tenant ID received from the client.
         this.tenantId = tenantId; }
     // Return the lease ID from the request.
     public Long getLeaseId() {
@@ -47,15 +49,19 @@ public class CreatePaymentRequest {
         this.leaseId = leaseId; }
     // Return the requested payment amount.
     public BigDecimal getAmount() {
+        // Give the service the requested amount.
         return amount; }
     // Set the requested payment amount.
     public void setAmount(BigDecimal amount) {
+        // Save the amount received from the client.
         this.amount = amount; }
     // Return the requested payment method.
     public PaymentMethod getMethod() {
+        // Give the service the selected method.
         return method; }
     // Set the requested payment method.
     public void setMethod(PaymentMethod method) {
+        // Save the method received from the client.
         this.method = method; }
     // Return the optional reference number.
     public String getReferenceNumber() {
