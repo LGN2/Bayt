@@ -34,16 +34,25 @@ public class DepositService {
         this.depositRepository = depositRepository;
     }
 
+    // Create a new deposit record for a tenant.
     public DepositResponse create(Long tenantId, BigDecimal amount) {
+        // Check that the deposit amount is present and positive.
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            // Stop when the deposit amount is invalid.
             throw new IllegalArgumentException("Deposit amount must be greater than zero");
         }
 
+        // Build a new empty deposit record.
         DepositRecord deposit = new DepositRecord();
+        // Store the tenant linked to this deposit.
         deposit.setTenantId(tenantId);
+        // Store the amount being held as deposit.
         deposit.setHeldAmount(amount);
+        // Start with no deduction.
         deposit.setDeductionAmount(BigDecimal.ZERO);
+        // Start with no refunded amount.
         deposit.setRefundedAmount(BigDecimal.ZERO);
+        // Save the deposit and return it as a response.
         return toResponse(depositRepository.save(deposit));
     }
 
