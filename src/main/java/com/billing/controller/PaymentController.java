@@ -32,6 +32,7 @@ public class PaymentController {
 
     // Receive the required services through constructor injection.
     public PaymentController(PaymentService paymentService,
+                             // Receive the allocation service for allocation lookups.
                              PaymentAllocationService allocationService) {
         // Keep the payment service for controller methods.
         this.paymentService = paymentService;
@@ -41,6 +42,7 @@ public class PaymentController {
 
     // Handle POST requests that create a new payment.
     @PostMapping
+    // Validate and read the JSON body as a payment request.
     // Create a payment from the validated request body.
     public PaymentResponse create(@Valid @RequestBody CreatePaymentRequest request) {
         // Send the create request to the payment service.
@@ -57,6 +59,7 @@ public class PaymentController {
 
     // Handle GET requests for one payment ID.
     @GetMapping("/{id}")
+    // Read the payment ID from the URL path.
     // Return one payment by its path ID.
     public PaymentResponse getById(@PathVariable Long id) {
         // Ask the service to find the payment.
@@ -65,6 +68,7 @@ public class PaymentController {
 
     // Handle GET requests for payments that belong to one tenant.
     @GetMapping("/tenant/{tenantId}")
+    // Read the tenant ID from the URL path.
     // Return payments for the tenant path ID.
     public List<PaymentResponse> getByTenant(@PathVariable Long tenantId) {
         // Ask the service for payments owned by this tenant.
@@ -73,6 +77,7 @@ public class PaymentController {
 
     // Handle GET requests for allocations linked to one payment.
     @GetMapping("/{id}/allocations")
+    // Use the payment ID from the path to load allocations.
     // Return allocation responses for the payment path ID.
     public List<PaymentAllocationResponse> getAllocations(@PathVariable Long id) {
         // Ask the allocation service for allocations of this payment.
