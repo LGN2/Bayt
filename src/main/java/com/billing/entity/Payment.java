@@ -1,3 +1,4 @@
+// Place the Payment entity inside the billing entity package.
 package main.java.com.billing.entity;
 
 // Use the enum that stores how the payment was made.
