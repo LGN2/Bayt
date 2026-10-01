@@ -1,10 +1,10 @@
 // Place the Payment entity inside the billing entity package.
-package main.java.com.billing.entity;
+package main.java.com.codevictims.bayt.billing.entity;
 
 // Use the enum that stores how the payment was made.
-import main.java.com.billing.type.PaymentMethod;
+import main.java.com.codevictims.bayt.billing.type.PaymentMethod;
 // Use the enum that stores the payment state.
-import main.java.com.billing.type.PaymentStatus;
+import main.java.com.codevictims.bayt.billing.type.PaymentStatus;
 // Use JPA annotations to map this class to the database.
 import jakarta.persistence.*;
 // Store money values with decimal precision.

@@ -1,16 +1,16 @@
 // Place payment business logic in the billing service package.
-package main.java.com.billing.service;
+package main.java.com.codevictims.bayt.billing.service;
 
 // Use the Payment entity for database records.
-import main.java.com.billing.entity.Payment;
+import main.java.com.codevictims.bayt.billing.entity.Payment;
 // Use the repository that saves and reads payments.
-import main.java.com.billing.repository.PaymentRepository;
+import main.java.com.codevictims.bayt.billing.repository.PaymentRepository;
 // Use the request data needed to create a payment.
-import main.java.com.billing.request.CreatePaymentRequest;
+import main.java.com.codevictims.bayt.billing.request.CreatePaymentRequest;
 // Use the response object returned by service methods.
-import main.java.com.billing.response.PaymentResponse;
+import main.java.com.codevictims.bayt.billing.response.PaymentResponse;
 // Use the payment status enum when creating payments.
-import main.java.com.billing.type.PaymentStatus;
+import main.java.com.codevictims.bayt.billing.type.PaymentStatus;
 // Mark this class as a Spring service.
 import org.springframework.stereotype.Service;
 

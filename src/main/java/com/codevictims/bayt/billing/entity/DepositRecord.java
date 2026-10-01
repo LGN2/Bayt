@@ -51,33 +51,47 @@ public class DepositRecord {
     public DepositRecord() {}
 
     // Return the deposit record ID.
-    public Long getId() { return id; }
+    public Long getId() {
+        return id; }
     // Set the deposit record ID.
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id; }
     // Return the tenant ID.
-    public Long getTenantId() { return tenantId; }
+    public Long getTenantId() {
+        return tenantId; }
     // Set the tenant ID.
-    public void setTenantId(Long tenantId) { this.tenantId = tenantId; }
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId; }
     // Return the held deposit amount.
-    public BigDecimal getHeldAmount() { return heldAmount; }
+    public BigDecimal getHeldAmount() {
+        return heldAmount; }
     // Set the held deposit amount.
-    public void setHeldAmount(BigDecimal heldAmount) { this.heldAmount = heldAmount; }
+    public void setHeldAmount(BigDecimal heldAmount) {
+        this.heldAmount = heldAmount; }
     // Return the deducted amount.
-    public BigDecimal getDeductionAmount() { return deductionAmount; }
+    public BigDecimal getDeductionAmount() {
+        return deductionAmount; }
     // Set the deducted amount.
-    public void setDeductionAmount(BigDecimal deductionAmount) { this.deductionAmount = deductionAmount; }
+    public void setDeductionAmount(BigDecimal deductionAmount) {
+        this.deductionAmount = deductionAmount; }
     // Return the refunded amount.
-    public BigDecimal getRefundedAmount() { return refundedAmount; }
+    public BigDecimal getRefundedAmount() {
+        return refundedAmount; }
     // Set the refunded amount.
-    public void setRefundedAmount(BigDecimal refundedAmount) { this.refundedAmount = refundedAmount; }
+    public void setRefundedAmount(BigDecimal refundedAmount) {
+        this.refundedAmount = refundedAmount; }
     // Return the refund date.
-    public LocalDate getRefundDate() { return refundDate; }
+    public LocalDate getRefundDate() {
+        return refundDate; }
     // Set the refund date.
-    public void setRefundDate(LocalDate refundDate) { this.refundDate = refundDate; }
+    public void setRefundDate(LocalDate refundDate) {
+        this.refundDate = refundDate; }
     // Return the deposit note.
-    public String getNote() { return note; }
+    public String getNote() {
+        return note; }
     // Set the deposit note.
-    public void setNote(String note) { this.note = note; }
+    public void setNote(String note) {
+        this.note = note; }
 
     // Calculate the deposit amount still available.
     public BigDecimal getRemainingAmount() {

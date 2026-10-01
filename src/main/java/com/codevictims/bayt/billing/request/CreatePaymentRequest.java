@@ -1,8 +1,8 @@
 // Place payment request objects in the billing request package.
-package main.java.com.billing.request;
+package main.java.com.codevictims.bayt.billing.request;
 
 // Use the selected method for the new payment.
-import main.java.com.billing.type.PaymentMethod;
+import main.java.com.codevictims.bayt.billing.type.PaymentMethod;
 // Require fields to be present in the request.
 import jakarta.validation.constraints.NotNull;
 // Require the amount to be greater than zero.

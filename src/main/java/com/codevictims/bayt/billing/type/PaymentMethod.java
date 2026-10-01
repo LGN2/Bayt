@@ -1,5 +1,5 @@
 // Place payment method values in the billing type package.
-package main.java.com.billing.type;
+package main.java.com.codevictims.bayt.billing.type;
 
 // Define the supported ways a payment can be made.
 public enum PaymentMethod {

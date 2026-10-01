@@ -1,8 +1,8 @@
 // Place payment database access code in the billing repository package.
-package main.java.com.billing.repository;
+package main.java.com.codevictims.bayt.billing.repository;
 
 // Use the Payment entity managed by this repository.
-import main.java.com.billing.entity.Payment;
+import main.java.com.codevictims.bayt.billing.entity.Payment;
 // Use Spring Data JPA repository features.
 import org.springframework.data.jpa.repository.JpaRepository;
 // Return multiple payment records.

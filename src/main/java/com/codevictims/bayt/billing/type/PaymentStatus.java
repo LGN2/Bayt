@@ -1,5 +1,5 @@
 // Place payment status values in the billing type package.
-package main.java.com.billing.type;
+package main.java.com.codevictims.bayt.billing.type;
 
 // Define the possible states of a payment.
 public enum PaymentStatus {

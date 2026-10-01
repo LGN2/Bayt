@@ -1,16 +1,16 @@
 // Place payment REST endpoints in the billing controller package.
-package main.java.com.billing.controller;
+package main.java.com.codevictims.bayt.billing.controller;
 
 // Use the request object that carries new payment details.
-import main.java.com.billing.request.CreatePaymentRequest;
+import main.java.com.codevictims.bayt.billing.request.CreatePaymentRequest;
 // Return allocation details when a payment's allocations are requested.
 import com.property.billing.response.PaymentAllocationResponse;
 // Return payment details from the payment endpoints.
-import main.java.com.billing.response.PaymentResponse;
+import main.java.com.codevictims.bayt.billing.response.PaymentResponse;
 // Use the allocation service to read allocation records for a payment.
 import com.property.billing.service.PaymentAllocationService;
 // Use the payment service for payment actions.
-import main.java.com.billing.service.PaymentService;
+import main.java.com.codevictims.bayt.billing.service.PaymentService;
 // Validate the request body before creating a payment.
 import jakarta.validation.Valid;
 // Use Spring web annotations for REST endpoints.

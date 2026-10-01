@@ -1,10 +1,10 @@
 // Place payment response objects in the billing response package.
-package main.java.com.billing.response;
+package main.java.com.codevictims.bayt.billing.response;
 
 // Include the payment method in the API response.
-import main.java.com.billing.type.PaymentMethod;
+import main.java.com.codevictims.bayt.billing.type.PaymentMethod;
 // Include the payment status in the API response.
-import main.java.com.billing.type.PaymentStatus;
+import main.java.com.codevictims.bayt.billing.type.PaymentStatus;
 // Return the payment amount with decimal precision.
 import java.math.BigDecimal;
 // Return the payment date and time.
