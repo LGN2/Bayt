@@ -10,6 +10,7 @@ import java.util.List;
 
 // Provide database access for PaymentAllocation entities with Long IDs.
 public interface PaymentAllocationRepository extends JpaRepository<PaymentAllocation, Long> {
+    // Use the payment ID parameter to filter allocation rows.
     // Find all allocations that belong to one payment.
     List<PaymentAllocation> findByPaymentId(Long paymentId);
 }
