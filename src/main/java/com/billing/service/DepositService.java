@@ -56,20 +56,31 @@ public class DepositService {
         return toResponse(depositRepository.save(deposit));
     }
 
+    // Update an existing deposit record.
     public DepositResponse update(Long id, UpdateDepositRequest request) {
+        // Search for the deposit record by ID.
         DepositRecord deposit = depositRepository.findById(id)
+                // Stop if the deposit record does not exist.
                 .orElseThrow(() -> new IllegalArgumentException("Deposit not found"));
 
+        // Check whether the request includes a deduction amount.
         if (request.getDeductionAmount() != null) {
+            // Update the deduction amount from the request.
             deposit.setDeductionAmount(request.getDeductionAmount());
         }
+        // Check whether the request includes a refunded amount.
         if (request.getRefundedAmount() != null) {
+            // Update the refunded amount from the request.
             deposit.setRefundedAmount(request.getRefundedAmount());
+            // Check whether a positive refund was recorded.
             if (request.getRefundedAmount().compareTo(BigDecimal.ZERO) > 0) {
+                // Store today's date as the refund date.
                 deposit.setRefundDate(LocalDate.now());
             }
         }
+        // Check whether the request includes a note.
         if (request.getNote() != null) {
+            // Update the deposit note from the request.
             deposit.setNote(request.getNote());
         }
 
