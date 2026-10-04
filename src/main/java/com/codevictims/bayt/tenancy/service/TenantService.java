@@ -72,26 +72,37 @@ public class TenantService {
                 ? new Tenant()
                 : db.get(Tenant.class, id);
 
-        if (id != null && !tenant.buildingId.equals(buildingId)) {
+        if (id != null
+                && !Objects.equals(tenant.getBuildingId(), buildingId)) {
+
             throw ApiException.invalid("INVALID_INPUT");
         }
 
-        tenant.buildingId = buildingId;
+        tenant.setBuildingId(buildingId);
 
-        tenant.name = in.text("name", 255);
-
-        tenant.kind = in.choice(
-                "kind",
-                "PERSON",
-                "COMPANY"
+        tenant.setName(
+                in.text("name", 255)
         );
 
-        tenant.email = in.optional("email");
+        tenant.setKind(
+                in.choice(
+                        "kind",
+                        "PERSON",
+                        "COMPANY"
+                )
+        );
 
-        tenant.phone = in.text("phone", 80);
+        tenant.setEmail(
+                in.optional("email")
+        );
 
-        tenant.emergencyContact =
-                in.optional("emergencyContact");
+        tenant.setPhone(
+                in.text("phone", 80)
+        );
+
+        tenant.setEmergencyContact(
+                in.optional("emergencyContact")
+        );
 
         Long accountId = in.nullableId("accountId");
 
@@ -103,24 +114,24 @@ public class TenantService {
             );
         }
 
-        /*
-         * Changing the account assigned to an existing tenant
-         * is allowed only for the owner.
-         */
+      
         if (id != null
-                && !Objects.equals(accountId, tenant.accountId)) {
+                && !Objects.equals(
+                accountId,
+                tenant.getAccountId()
+        )) {
 
             access.owner(buildingId);
         }
 
-        tenant.accountId = accountId;
+        tenant.setAccountId(accountId);
 
         db.save(tenant);
 
         audit.add(
                 buildingId,
                 "TENANT",
-                tenant.id,
+                tenant.getId(),
                 id == null ? "CREATED" : "UPDATED",
                 ""
         );
