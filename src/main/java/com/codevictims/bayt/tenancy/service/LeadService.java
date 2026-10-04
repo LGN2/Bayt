@@ -1,6 +1,5 @@
 package com.codevictims.bayt.tenancy.service;
 
-import com.codevictims.bayt.common.exception.ApiException;
 import com.codevictims.bayt.tenancy.entity.Lead;
 import com.codevictims.bayt.tenancy.repository.LeadRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,9 @@ public class LeadService {
 
     public Lead getById(Long id) {
         return leadRepository.findById(id)
-                .orElseThrow(ApiException::missing);
+                .orElseThrow(() ->
+                        new RuntimeException("Lead not found with id: " + id)
+                );
     }
 
     public Lead create(Lead lead) {
