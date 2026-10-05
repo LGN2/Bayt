@@ -52,10 +52,14 @@ public class PaymentAllocationService {
 
         // Go through each rent due record in date order.
         for (RentDue due : dues) {
+            // Stop allocating when no payment amount remains.
             if (remainingPayment.compareTo(BigDecimal.ZERO) <= 0) {
+                // Leave the loop because the payment is fully used.
                 break;
             }
+            // Skip rent due records that are already paid.
             if (due.isPaid()) {
+                // Move to the next rent due record.
                 continue;
             }
 
