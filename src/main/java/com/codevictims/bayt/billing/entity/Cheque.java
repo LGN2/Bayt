@@ -70,12 +70,20 @@ public class Cheque {
     public String getChequeNumber() { return chequeNumber; }
     // Set the cheque number.
     public void setChequeNumber(String chequeNumber) { this.chequeNumber = chequeNumber; }
+    // Return the bank name.
     public String getBankName() { return bankName; }
+    // Set the bank that issued the cheque.
     public void setBankName(String bankName) { this.bankName = bankName; }
+    // Return the cheque date.
     public LocalDate getChequeDate() { return chequeDate; }
+    // Set the date written on the cheque.
     public void setChequeDate(LocalDate chequeDate) { this.chequeDate = chequeDate; }
+    // Return the cheque amount.
     public BigDecimal getAmount() { return amount; }
+    // Set the amount written on the cheque.
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+    // Return the current cheque status.
     public ChequeStatus getStatus() { return status; }
+    // Set the current cheque status.
     public void setStatus(ChequeStatus status) { this.status = status; }
 }
