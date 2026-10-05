@@ -19,14 +19,24 @@ public class ArrearsResponse {
     // Store the unpaid amount for this rent due record.
     private BigDecimal outstandingAmount;
 
+    // Return the rent due ID.
     public Long getRentDueId() { return rentDueId; }
+    // Set the rent due ID in the response.
     public void setRentDueId(Long rentDueId) { this.rentDueId = rentDueId; }
+    // Return the lease ID.
     public Long getLeaseId() { return leaseId; }
+    // Set the lease ID in the response.
     public void setLeaseId(Long leaseId) { this.leaseId = leaseId; }
+    // Return the overdue rent due date.
     public LocalDate getDueDate() { return dueDate; }
+    // Set the due date returned to the client.
     public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+    // Return how many days late the rent is.
     public long getDaysLate() { return daysLate; }
+    // Set the number of late days.
     public void setDaysLate(long daysLate) { this.daysLate = daysLate; }
+    // Return the unpaid amount.
     public BigDecimal getOutstandingAmount() { return outstandingAmount; }
+    // Set the outstanding amount in the response.
     public void setOutstandingAmount(BigDecimal outstandingAmount) { this.outstandingAmount = outstandingAmount; }
 }
