@@ -92,9 +92,13 @@ public class PaymentService {
         return responses;
     }
 
+    // Return one payment by its ID.
     public PaymentResponse getById(Long id) {
+        // Search for the payment in the database.
         Payment payment = paymentRepository.findById(id)
+                // Stop when the requested payment does not exist.
                 .orElseThrow(() -> new IllegalArgumentException("Payment not found"));
+        // Convert the found payment into a response.
         return toResponse(payment);
     }
 
