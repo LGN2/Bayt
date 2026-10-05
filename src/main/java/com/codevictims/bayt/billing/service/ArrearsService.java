@@ -67,18 +67,30 @@ public class ArrearsService {
         return responses;
     }
 
+    // Build a financial summary from all rent due records.
     public FinancialSummaryResponse getSummary() {
+        // Start the total rent due amount at zero.
         BigDecimal totalDue = BigDecimal.ZERO;
+        // Start the total paid amount at zero.
         BigDecimal totalPaid = BigDecimal.ZERO;
+        // Start the total outstanding amount at zero.
         BigDecimal totalOutstanding = BigDecimal.ZERO;
+        // Start the overdue record count at zero.
         int overdue = 0;
+        // Use today's date for overdue checks.
         LocalDate today = LocalDate.now();
 
+        // Read every rent due record from the database.
         for (RentDue due : rentDueRepository.findAll()) {
+            // Add this rent amount to the total due amount.
             totalDue = totalDue.add(due.getAmount());
+            // Add this paid amount to the total paid amount.
             totalPaid = totalPaid.add(due.getPaidAmount());
+            // Add this outstanding amount to the total unpaid amount.
             totalOutstanding = totalOutstanding.add(due.getOutstandingAmount());
+            // Count unpaid rent records with due dates before today.
             if (due.getDueDate().isBefore(today) && !due.isPaid()) {
+                // Increase the overdue count.
                 overdue++;
             }
         }
