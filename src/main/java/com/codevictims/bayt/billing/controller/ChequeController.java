@@ -51,13 +51,19 @@ public class ChequeController {
         return chequeService.changeStatus(id, request);
     }
 
+    // Handle requests that list all cheques.
     @GetMapping
+    // Return all cheque responses.
     public List<ChequeResponse> getAll() {
+        // Ask the service for every cheque.
         return chequeService.getAll();
     }
 
+    // Handle requests for status history of one cheque.
     @GetMapping("/{id}/history")
+    // Read the cheque ID from the URL path.
     public List<ChequeStatusHistoryResponse> getHistory(@PathVariable Long id) {
+        // Ask the service for the cheque status history.
         return chequeService.getHistory(id);
     }
 }
