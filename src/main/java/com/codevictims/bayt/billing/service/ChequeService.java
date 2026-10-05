@@ -66,7 +66,9 @@ public class ChequeService {
         // Save the new cheque in the database.
         cheque = chequeRepository.save(cheque);
 
+        // Record the first status history item for this cheque.
         saveHistory(cheque, null, ChequeStatus.RECEIVED, "Cheque received");
+        // Convert the saved cheque into a response.
         return toResponse(cheque);
     }
 
