@@ -10,7 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 // Start the application from this class.
 public class PropertyBillingApplication {
+    // Run when Java starts the application.
     public static void main(String[] args) {
+        // Launch the Spring Boot application with command-line arguments.
         SpringApplication.run(PropertyBillingApplication.class, args);
     }
 }
