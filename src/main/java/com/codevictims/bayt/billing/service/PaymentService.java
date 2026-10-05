@@ -39,14 +39,23 @@ public class PaymentService {
         this.paymentAllocationService = paymentAllocationService;
     }
 
+    // Create and store a new payment from request data.
     public PaymentResponse create(CreatePaymentRequest request) {
+        // Create a new payment entity.
         Payment payment = new Payment();
+        // Copy the tenant ID from the request.
         payment.setTenantId(request.getTenantId());
+        // Copy the lease ID from the request.
         payment.setLeaseId(request.getLeaseId());
+        // Copy the payment amount from the request.
         payment.setAmount(request.getAmount());
+        // Copy the selected payment method from the request.
         payment.setMethod(request.getMethod());
+        // Mark new payments as completed.
         payment.setStatus(PaymentStatus.COMPLETED);
+        // Store the current date and time as the payment date.
         payment.setPaymentDate(LocalDateTime.now());
+        // Copy the optional reference number from the request.
         payment.setReferenceNumber(request.getReferenceNumber());
 
         payment = paymentRepository.save(payment);
