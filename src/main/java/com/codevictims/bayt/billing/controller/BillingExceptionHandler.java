@@ -22,10 +22,15 @@ import java.util.Map;
 // Provide common billing API exception handling.
 public class BillingExceptionHandler {
 
+    // Catch invalid argument errors.
     @ExceptionHandler(IllegalArgumentException.class)
+    // Return a simple bad request response for invalid arguments.
     public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
+        // Create a map for the error response.
         Map<String, String> error = new HashMap<>();
+        // Add the exception message to the response.
         error.put("error", ex.getMessage());
+        // Return HTTP 400 with the error details.
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
