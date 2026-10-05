@@ -104,18 +104,30 @@ public class ChequeService {
         return responses;
     }
 
+    // Return status history records for one cheque.
     public List<ChequeStatusHistoryResponse> getHistory(Long chequeId) {
+        // Create a list to collect history responses.
         List<ChequeStatusHistoryResponse> responses = new ArrayList<>();
+        // Find history records for this cheque, newest first.
         for (ChequeStatusHistory item : historyRepository.findByChequeIdOrderByChangedAtDesc(chequeId)) {
+            // Create a response for one history record.
             ChequeStatusHistoryResponse response = new ChequeStatusHistoryResponse();
+            // Copy the history record ID.
             response.setId(item.getId());
+            // Copy the linked cheque ID.
             response.setChequeId(item.getCheque().getId());
+            // Copy the previous cheque status.
             response.setOldStatus(item.getOldStatus());
+            // Copy the new cheque status.
             response.setNewStatus(item.getNewStatus());
+            // Copy when the status changed.
             response.setChangedAt(item.getChangedAt());
+            // Copy the note saved with the change.
             response.setNote(item.getNote());
+            // Add this history response to the result list.
             responses.add(response);
         }
+        // Return the cheque status history responses.
         return responses;
     }
 
