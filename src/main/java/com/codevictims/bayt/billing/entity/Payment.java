@@ -77,11 +77,17 @@ public class Payment {
     public Long getLeaseId() { return leaseId; }
     // Set the lease ID.
     public void setLeaseId(Long leaseId) { this.leaseId = leaseId; }
+    // Return the amount paid.
     public BigDecimal getAmount() { return amount; }
+    // Set the payment amount.
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+    // Return the selected payment method.
     public PaymentMethod getMethod() { return method; }
+    // Set how the payment was made.
     public void setMethod(PaymentMethod method) { this.method = method; }
+    // Return the current payment status.
     public PaymentStatus getStatus() { return status; }
+    // Set the current payment status.
     public void setStatus(PaymentStatus status) { this.status = status; }
     public LocalDateTime getPaymentDate() { return paymentDate; }
     public void setPaymentDate(LocalDateTime paymentDate) { this.paymentDate = paymentDate; }
