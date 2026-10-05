@@ -102,13 +102,21 @@ public class PaymentService {
         return toResponse(payment);
     }
 
+    // Convert a payment entity into a response object.
     private PaymentResponse toResponse(Payment payment) {
+        // Create the response object.
         PaymentResponse response = new PaymentResponse();
+        // Copy the payment ID into the response.
         response.setId(payment.getId());
+        // Copy the tenant ID into the response.
         response.setTenantId(payment.getTenantId());
+        // Copy the lease ID into the response.
         response.setLeaseId(payment.getLeaseId());
+        // Copy the paid amount into the response.
         response.setAmount(payment.getAmount());
+        // Copy the payment method into the response.
         response.setMethod(payment.getMethod());
+        // Copy the payment status into the response.
         response.setStatus(payment.getStatus());
         response.setPaymentDate(payment.getPaymentDate());
         response.setReferenceNumber(payment.getReferenceNumber());
