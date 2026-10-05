@@ -34,10 +34,15 @@ public class BillingExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    // Catch validation errors from request data.
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    // Return a simple bad request response for validation failures.
     public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex) {
+        // Create a map for the validation error response.
         Map<String, String> error = new HashMap<>();
+        // Add a general validation message to the response.
         error.put("error", "Invalid request data");
+        // Return HTTP 400 with the validation error details.
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }
