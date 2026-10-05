@@ -30,20 +30,29 @@ public class RentDueController {
         this.rentScheduleService = rentScheduleService;
     }
 
+    // Handle requests that create a rent due record.
     @PostMapping
+    // Read the lease, date, and amount from request parameters.
     public RentDueResponse create(@RequestParam Long leaseId,
                                   @RequestParam LocalDate dueDate,
                                   @RequestParam BigDecimal amount) {
+        // Ask the service to create the rent due record.
         return rentScheduleService.createRentDue(leaseId, dueDate, amount);
     }
 
+    // Handle requests that list every rent due record.
     @GetMapping
+    // Return all rent due responses.
     public List<RentDueResponse> getAll() {
+        // Ask the service for every rent due record.
         return rentScheduleService.getAll();
     }
 
+    // Handle requests for rent dues under one lease.
     @GetMapping("/lease/{leaseId}")
+    // Read the lease ID from the URL path.
     public List<RentDueResponse> getByLease(@PathVariable Long leaseId) {
+        // Ask the service for rent due records for this lease.
         return rentScheduleService.getByLease(leaseId);
     }
 }
