@@ -91,11 +91,16 @@ public class ChequeService {
         return toResponse(cheque);
     }
 
+    // Return every cheque as response objects.
     public List<ChequeResponse> getAll() {
+        // Create a list to collect cheque responses.
         List<ChequeResponse> responses = new ArrayList<>();
+        // Read every cheque from the database.
         for (Cheque cheque : chequeRepository.findAll()) {
+            // Convert each cheque and add it to the result list.
             responses.add(toResponse(cheque));
         }
+        // Return all converted cheque responses.
         return responses;
     }
 
