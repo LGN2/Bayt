@@ -55,13 +55,19 @@ public class PaymentController {
         return paymentService.getAll();
     }
 
+    // Handle requests for one payment by ID.
     @GetMapping("/{id}")
+    // Read the payment ID from the URL path.
     public PaymentResponse getById(@PathVariable Long id) {
+        // Ask the service to find the payment.
         return paymentService.getById(id);
     }
 
+    // Handle requests for payments that belong to one tenant.
     @GetMapping("/tenant/{tenantId}")
+    // Read the tenant ID from the URL path.
     public List<PaymentResponse> getByTenant(@PathVariable Long tenantId) {
+        // Ask the service for this tenant's payments.
         return paymentService.getByTenant(tenantId);
     }
 
