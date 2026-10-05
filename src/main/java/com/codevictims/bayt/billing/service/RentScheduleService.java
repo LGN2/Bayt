@@ -54,19 +54,29 @@ public class RentScheduleService {
         return toResponse(rentDueRepository.save(rentDue));
     }
 
+    // Return every rent due record as response objects.
     public List<RentDueResponse> getAll() {
+        // Create a list to collect rent due responses.
         List<RentDueResponse> responses = new ArrayList<>();
+        // Read every rent due record from the database.
         for (RentDue due : rentDueRepository.findAll()) {
+            // Convert each rent due record and add it to the list.
             responses.add(toResponse(due));
         }
+        // Return all converted rent due responses.
         return responses;
     }
 
+    // Return rent due records for one lease.
     public List<RentDueResponse> getByLease(Long leaseId) {
+        // Create a list for this lease's rent due responses.
         List<RentDueResponse> responses = new ArrayList<>();
+        // Find rent due records for the lease in due date order.
         for (RentDue due : rentDueRepository.findByLeaseIdOrderByDueDateAsc(leaseId)) {
+            // Convert each lease rent due record into a response.
             responses.add(toResponse(due));
         }
+        // Return the lease rent due responses.
         return responses;
     }
 
