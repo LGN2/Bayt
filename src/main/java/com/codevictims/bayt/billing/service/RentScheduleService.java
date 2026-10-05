@@ -32,16 +32,25 @@ public class RentScheduleService {
         this.rentDueRepository = rentDueRepository;
     }
 
+    // Create one rent due record.
     public RentDueResponse createRentDue(Long leaseId, LocalDate dueDate, BigDecimal amount) {
+        // Check that the rent amount is present and positive.
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            // Stop when the amount is missing or not greater than zero.
             throw new IllegalArgumentException("Amount must be greater than zero");
         }
 
+        // Create a new rent due entity.
         RentDue rentDue = new RentDue();
+        // Link the rent due record to the lease.
         rentDue.setLeaseId(leaseId);
+        // Store the date when rent becomes due.
         rentDue.setDueDate(dueDate);
+        // Store the full rent amount.
         rentDue.setAmount(amount);
+        // Start the paid amount at zero.
         rentDue.setPaidAmount(BigDecimal.ZERO);
+        // Save the rent due record and convert it to a response.
         return toResponse(rentDueRepository.save(rentDue));
     }
 
