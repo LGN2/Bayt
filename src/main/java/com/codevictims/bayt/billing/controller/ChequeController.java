@@ -34,14 +34,20 @@ public class ChequeController {
         this.chequeService = chequeService;
     }
 
+    // Handle requests that create a new cheque.
     @PostMapping
+    // Receive a validated cheque request from the HTTP body.
     public ChequeResponse create(@Valid @RequestBody CreateChequeRequest request) {
+        // Ask the service to create the cheque.
         return chequeService.create(request);
     }
 
+    // Handle requests that update a cheque status.
     @PutMapping("/{id}/status")
+    // Read the cheque ID from the URL and the new status from the body.
     public ChequeResponse changeStatus(@PathVariable Long id,
                                        @Valid @RequestBody ChequeTransitionRequest request) {
+        // Ask the service to change the cheque status.
         return chequeService.changeStatus(id, request);
     }
 
