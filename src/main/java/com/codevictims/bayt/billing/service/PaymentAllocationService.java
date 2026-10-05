@@ -106,9 +106,13 @@ public class PaymentAllocationService {
         return responses;
     }
 
+    // Convert an allocation entity into a response object.
     private PaymentAllocationResponse toResponse(PaymentAllocation allocation) {
+        // Create a new response object.
         PaymentAllocationResponse response = new PaymentAllocationResponse();
+        // Copy the allocation ID into the response.
         response.setId(allocation.getId());
+        // Copy the linked payment ID into the response.
         response.setPaymentId(allocation.getPayment().getId());
         response.setRentDueId(allocation.getRentDue().getId());
         response.setAllocatedAmount(allocation.getAllocatedAmount());
