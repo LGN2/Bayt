@@ -89,8 +89,12 @@ public class Payment {
     public PaymentStatus getStatus() { return status; }
     // Set the current payment status.
     public void setStatus(PaymentStatus status) { this.status = status; }
+    // Return when the payment was recorded.
     public LocalDateTime getPaymentDate() { return paymentDate; }
+    // Set the payment date and time.
     public void setPaymentDate(LocalDateTime paymentDate) { this.paymentDate = paymentDate; }
+    // Return the optional reference number.
     public String getReferenceNumber() { return referenceNumber; }
+    // Set the external reference number.
     public void setReferenceNumber(String referenceNumber) { this.referenceNumber = referenceNumber; }
 }
