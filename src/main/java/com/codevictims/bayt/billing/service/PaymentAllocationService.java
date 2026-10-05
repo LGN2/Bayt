@@ -1,25 +1,43 @@
+// Keep allocation business logic inside the billing service package.
 package com.codevictims.bayt.billing.service;
 
+// Import the payment entity that provides the amount to allocate.
 import com.codevictims.bayt.billing.entity.Payment;
+// Import the allocation entity saved by this service.
 import com.codevictims.bayt.billing.entity.PaymentAllocation;
+// Import rent due records that receive payment amounts.
 import com.codevictims.bayt.billing.entity.RentDue;
+// Import the repository used for allocation records.
 import com.codevictims.bayt.billing.repository.PaymentAllocationRepository;
+// Import the repository used for rent due records.
 import com.codevictims.bayt.billing.repository.RentDueRepository;
+// Import the response object returned by this service.
 import com.codevictims.bayt.billing.response.PaymentAllocationResponse;
+// Import the Spring service annotation.
 import org.springframework.stereotype.Service;
 
+// Import BigDecimal for money calculations.
 import java.math.BigDecimal;
+// Import ArrayList for building response lists.
 import java.util.ArrayList;
+// Import List for returning many allocation responses.
 import java.util.List;
 
+// Mark this class as a Spring service.
 @Service
+// Handle payment allocation business operations.
 public class PaymentAllocationService {
+    // Store the repository used for payment allocation records.
     private final PaymentAllocationRepository allocationRepository;
+    // Store the repository used for rent due records.
     private final RentDueRepository rentDueRepository;
 
+    // Receive service dependencies through the constructor.
     public PaymentAllocationService(PaymentAllocationRepository allocationRepository,
                                     RentDueRepository rentDueRepository) {
+        // Keep the allocation repository for later database work.
         this.allocationRepository = allocationRepository;
+        // Keep the rent due repository for lookup and save operations.
         this.rentDueRepository = rentDueRepository;
     }
 
