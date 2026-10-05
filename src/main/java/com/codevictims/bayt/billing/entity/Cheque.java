@@ -55,13 +55,20 @@ public class Cheque {
     // Track the current cheque status.
     private ChequeStatus status;
 
+    // Create an empty cheque object for JPA.
     public Cheque() {}
 
+    // Return the cheque ID.
     public Long getId() { return id; }
+    // Set the cheque ID.
     public void setId(Long id) { this.id = id; }
+    // Return the tenant ID for this cheque.
     public Long getTenantId() { return tenantId; }
+    // Set the tenant ID.
     public void setTenantId(Long tenantId) { this.tenantId = tenantId; }
+    // Return the cheque number.
     public String getChequeNumber() { return chequeNumber; }
+    // Set the cheque number.
     public void setChequeNumber(String chequeNumber) { this.chequeNumber = chequeNumber; }
     public String getBankName() { return bankName; }
     public void setBankName(String bankName) { this.bankName = bankName; }
