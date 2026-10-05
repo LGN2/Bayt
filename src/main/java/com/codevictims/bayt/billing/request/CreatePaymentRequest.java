@@ -33,14 +33,24 @@ public class CreatePaymentRequest {
     // Store an optional reference number for the payment.
     private String referenceNumber;
 
+    // Return the tenant ID from the request.
     public Long getTenantId() { return tenantId; }
+    // Save the tenant ID received from the client.
     public void setTenantId(Long tenantId) { this.tenantId = tenantId; }
+    // Return the lease ID from the request.
     public Long getLeaseId() { return leaseId; }
+    // Save the lease ID received from the client.
     public void setLeaseId(Long leaseId) { this.leaseId = leaseId; }
+    // Return the requested payment amount.
     public BigDecimal getAmount() { return amount; }
+    // Save the payment amount from the request.
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+    // Return the selected payment method.
     public PaymentMethod getMethod() { return method; }
+    // Save the payment method from the request.
     public void setMethod(PaymentMethod method) { this.method = method; }
+    // Return the optional payment reference number.
     public String getReferenceNumber() { return referenceNumber; }
+    // Save the reference number sent by the client.
     public void setReferenceNumber(String referenceNumber) { this.referenceNumber = referenceNumber; }
 }
