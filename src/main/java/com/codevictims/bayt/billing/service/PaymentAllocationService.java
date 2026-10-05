@@ -84,9 +84,12 @@ public class PaymentAllocationService {
             // Save the allocation in the database.
             allocation = allocationRepository.save(allocation);
 
+            // Convert the saved allocation and add it to the response list.
             responses.add(toResponse(allocation));
+            // Reduce the remaining payment by the allocated amount.
             remainingPayment = remainingPayment.subtract(amountToAllocate);
         }
+        // Return all allocation results created for this payment.
         return responses;
     }
 
