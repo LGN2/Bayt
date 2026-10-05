@@ -93,11 +93,16 @@ public class PaymentAllocationService {
         return responses;
     }
 
+    // Return allocation records for one payment.
     public List<PaymentAllocationResponse> getByPayment(Long paymentId) {
+        // Create a list to collect allocation responses.
         List<PaymentAllocationResponse> responses = new ArrayList<>();
+        // Find allocations linked to the given payment ID.
         for (PaymentAllocation allocation : allocationRepository.findByPaymentId(paymentId)) {
+            // Convert each allocation into a response object.
             responses.add(toResponse(allocation));
         }
+        // Return the allocation responses.
         return responses;
     }
 
