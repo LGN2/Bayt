@@ -118,8 +118,11 @@ public class PaymentService {
         response.setMethod(payment.getMethod());
         // Copy the payment status into the response.
         response.setStatus(payment.getStatus());
+        // Copy the payment date into the response.
         response.setPaymentDate(payment.getPaymentDate());
+        // Copy the reference number into the response.
         response.setReferenceNumber(payment.getReferenceNumber());
+        // Return the completed payment response.
         return response;
     }
 }
