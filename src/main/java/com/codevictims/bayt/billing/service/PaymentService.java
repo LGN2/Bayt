@@ -66,19 +66,29 @@ public class PaymentService {
         return toResponse(payment);
     }
 
+    // Return every payment as response objects.
     public List<PaymentResponse> getAll() {
+        // Create a list to collect payment responses.
         List<PaymentResponse> responses = new ArrayList<>();
+        // Read every payment from the database.
         for (Payment payment : paymentRepository.findAll()) {
+            // Convert each payment and add it to the result list.
             responses.add(toResponse(payment));
         }
+        // Return all converted payment responses.
         return responses;
     }
 
+    // Return payments for one tenant.
     public List<PaymentResponse> getByTenant(Long tenantId) {
+        // Create a list for this tenant's payment responses.
         List<PaymentResponse> responses = new ArrayList<>();
+        // Find tenant payments ordered by newest date first.
         for (Payment payment : paymentRepository.findByTenantIdOrderByPaymentDateDesc(tenantId)) {
+            // Convert each tenant payment to a response object.
             responses.add(toResponse(payment));
         }
+        // Return the tenant payment responses.
         return responses;
     }
 
