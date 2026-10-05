@@ -62,13 +62,20 @@ public class Payment {
     // Store an optional external reference for the payment.
     private String referenceNumber;
 
+    // Create an empty payment object for JPA.
     public Payment() {}
 
+    // Return the payment ID.
     public Long getId() { return id; }
+    // Set the payment ID.
     public void setId(Long id) { this.id = id; }
+    // Return the tenant ID for this payment.
     public Long getTenantId() { return tenantId; }
+    // Set the tenant ID.
     public void setTenantId(Long tenantId) { this.tenantId = tenantId; }
+    // Return the lease ID for this payment.
     public Long getLeaseId() { return leaseId; }
+    // Set the lease ID.
     public void setLeaseId(Long leaseId) { this.leaseId = leaseId; }
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
