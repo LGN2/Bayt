@@ -80,11 +80,17 @@ public class RentScheduleService {
         return responses;
     }
 
+    // Convert a rent due entity into a response object.
     public RentDueResponse toResponse(RentDue due) {
+        // Create the response object.
         RentDueResponse response = new RentDueResponse();
+        // Copy the rent due ID into the response.
         response.setId(due.getId());
+        // Copy the lease ID into the response.
         response.setLeaseId(due.getLeaseId());
+        // Copy the due date into the response.
         response.setDueDate(due.getDueDate());
+        // Copy the full rent amount into the response.
         response.setAmount(due.getAmount());
         response.setPaidAmount(due.getPaidAmount());
         response.setOutstandingAmount(due.getOutstandingAmount());
