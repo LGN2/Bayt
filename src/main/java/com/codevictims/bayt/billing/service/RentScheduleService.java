@@ -92,9 +92,13 @@ public class RentScheduleService {
         response.setDueDate(due.getDueDate());
         // Copy the full rent amount into the response.
         response.setAmount(due.getAmount());
+        // Copy the paid amount into the response.
         response.setPaidAmount(due.getPaidAmount());
+        // Copy the remaining balance into the response.
         response.setOutstandingAmount(due.getOutstandingAmount());
+        // Set status text based on whether the rent is fully paid.
         response.setStatus(due.isPaid() ? "PAID" : "UNPAID");
+        // Return the completed rent due response.
         return response;
     }
 }
