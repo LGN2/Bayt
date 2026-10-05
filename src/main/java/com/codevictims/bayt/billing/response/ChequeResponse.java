@@ -1,16 +1,28 @@
+// Keep cheque response objects inside the billing response package.
 package com.codevictims.bayt.billing.response;
 
+// Import the cheque status returned to clients.
 import com.codevictims.bayt.billing.type.ChequeStatus;
+// Import BigDecimal for returned money values.
 import java.math.BigDecimal;
+// Import LocalDate for the returned cheque date.
 import java.time.LocalDate;
 
+// Send cheque details back to the client.
 public class ChequeResponse {
+    // Store the cheque ID returned in the response.
     private Long id;
+    // Store the tenant ID connected to the cheque.
     private Long tenantId;
+    // Store the cheque number shown to the client.
     private String chequeNumber;
+    // Store the bank name shown in the response.
     private String bankName;
+    // Store the date written on the cheque.
     private LocalDate chequeDate;
+    // Store the cheque amount returned to the client.
     private BigDecimal amount;
+    // Store the current cheque status.
     private ChequeStatus status;
 
     public Long getId() { return id; }
