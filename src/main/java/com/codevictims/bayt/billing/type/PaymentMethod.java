@@ -1,4 +1,8 @@
 package com.codevictims.bayt.billing.type;
 
-public class PaymentMethod {
+public enum PaymentMethod {
+    CASH,
+    CARD,
+    BANK_TRANSFER,
+    CHEQUE
 }
