@@ -1,5 +1,6 @@
 package com.codevictims.bayt.common.entity;
 
+import com.codevictims.bayt.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import java.time.*;
 
