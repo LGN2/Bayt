@@ -114,8 +114,11 @@ public class PaymentAllocationService {
         response.setId(allocation.getId());
         // Copy the linked payment ID into the response.
         response.setPaymentId(allocation.getPayment().getId());
+        // Copy the linked rent due ID into the response.
         response.setRentDueId(allocation.getRentDue().getId());
+        // Copy the allocated amount into the response.
         response.setAllocatedAmount(allocation.getAllocatedAmount());
+        // Return the completed allocation response.
         return response;
     }
 }
