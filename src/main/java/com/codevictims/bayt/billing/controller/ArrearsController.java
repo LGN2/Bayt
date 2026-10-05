@@ -28,13 +28,19 @@ public class ArrearsController {
         this.arrearsService = arrearsService;
     }
 
+    // Handle requests for overdue rent records.
     @GetMapping
+    // Return all current arrears records.
     public List<ArrearsResponse> getArrears() {
+        // Ask the service for arrears data.
         return arrearsService.getArrears();
     }
 
+    // Handle requests for the financial summary.
     @GetMapping("/summary")
+    // Return totals for rent due, paid, and outstanding amounts.
     public FinancialSummaryResponse getSummary() {
+        // Ask the service to build the summary.
         return arrearsService.getSummary();
     }
 }
