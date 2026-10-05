@@ -150,11 +150,17 @@ public class ChequeService {
         historyRepository.save(history);
     }
 
+    // Convert a cheque entity into a response object.
     private ChequeResponse toResponse(Cheque cheque) {
+        // Create the response object.
         ChequeResponse response = new ChequeResponse();
+        // Copy the cheque ID into the response.
         response.setId(cheque.getId());
+        // Copy the tenant ID into the response.
         response.setTenantId(cheque.getTenantId());
+        // Copy the cheque number into the response.
         response.setChequeNumber(cheque.getChequeNumber());
+        // Copy the bank name into the response.
         response.setBankName(cheque.getBankName());
         response.setChequeDate(cheque.getChequeDate());
         response.setAmount(cheque.getAmount());
