@@ -131,14 +131,22 @@ public class ChequeService {
         return responses;
     }
 
+    // Save one cheque status history record.
     private void saveHistory(Cheque cheque, ChequeStatus oldStatus,
                              ChequeStatus newStatus, String note) {
+        // Create a new history entity.
         ChequeStatusHistory history = new ChequeStatusHistory();
+        // Link the history record to the cheque.
         history.setCheque(cheque);
+        // Store the status before the change.
         history.setOldStatus(oldStatus);
+        // Store the status after the change.
         history.setNewStatus(newStatus);
+        // Store the current time as the change time.
         history.setChangedAt(LocalDateTime.now());
+        // Store the note for this status change.
         history.setNote(note);
+        // Save the history record in the database.
         historyRepository.save(history);
     }
 
