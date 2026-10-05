@@ -1,15 +1,26 @@
+// Keep rent due response objects inside the billing response package.
 package com.property.billing.response;
 
+// Import BigDecimal for returned money values.
 import java.math.BigDecimal;
+// Import LocalDate for the returned due date.
 import java.time.LocalDate;
 
+// Send rent due details back to the client.
 public class RentDueResponse {
+    // Store the rent due ID returned in the response.
     private Long id;
+    // Store the lease ID connected to the rent due.
     private Long leaseId;
+    // Store the date when the rent is due.
     private LocalDate dueDate;
+    // Store the full rent amount.
     private BigDecimal amount;
+    // Store the amount already paid.
     private BigDecimal paidAmount;
+    // Store the amount still unpaid.
     private BigDecimal outstandingAmount;
+    // Store the paid or unpaid status text.
     private String status;
 
     public Long getId() { return id; }
