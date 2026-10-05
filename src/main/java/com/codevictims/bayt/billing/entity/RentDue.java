@@ -41,15 +41,24 @@ public class RentDue {
     // Keep the amount already paid for this rent due record.
     private BigDecimal paidAmount = BigDecimal.ZERO;
 
+    // Create an empty rent due object for JPA.
     public RentDue() {}
 
+    // Return the rent due ID.
     public Long getId() { return id; }
+    // Set the rent due ID.
     public void setId(Long id) { this.id = id; }
+    // Return the lease ID for this rent due record.
     public Long getLeaseId() { return leaseId; }
+    // Set the lease ID.
     public void setLeaseId(Long leaseId) { this.leaseId = leaseId; }
+    // Return the date when rent is due.
     public LocalDate getDueDate() { return dueDate; }
+    // Set the due date.
     public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+    // Return the full rent amount.
     public BigDecimal getAmount() { return amount; }
+    // Set the rent amount.
     public void setAmount(BigDecimal amount) { this.amount = amount; }
     public BigDecimal getPaidAmount() { return paidAmount; }
     public void setPaidAmount(BigDecimal paidAmount) { this.paidAmount = paidAmount; }
