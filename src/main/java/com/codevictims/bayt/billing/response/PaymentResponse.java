@@ -29,20 +29,36 @@ public class PaymentResponse {
     // Store the optional reference number returned to the client.
     private String referenceNumber;
 
+    // Return the payment ID.
     public Long getId() { return id; }
+    // Set the payment ID in the response.
     public void setId(Long id) { this.id = id; }
+    // Return the tenant ID for this payment.
     public Long getTenantId() { return tenantId; }
+    // Set the tenant ID in the response.
     public void setTenantId(Long tenantId) { this.tenantId = tenantId; }
+    // Return the lease ID for this payment.
     public Long getLeaseId() { return leaseId; }
+    // Set the lease ID in the response.
     public void setLeaseId(Long leaseId) { this.leaseId = leaseId; }
+    // Return the amount paid.
     public BigDecimal getAmount() { return amount; }
+    // Set the amount shown to the client.
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+    // Return the payment method.
     public PaymentMethod getMethod() { return method; }
+    // Set the payment method in the response.
     public void setMethod(PaymentMethod method) { this.method = method; }
+    // Return the payment status.
     public PaymentStatus getStatus() { return status; }
+    // Set the status shown to the client.
     public void setStatus(PaymentStatus status) { this.status = status; }
+    // Return the recorded payment date.
     public LocalDateTime getPaymentDate() { return paymentDate; }
+    // Set the payment date in the response.
     public void setPaymentDate(LocalDateTime paymentDate) { this.paymentDate = paymentDate; }
+    // Return the payment reference number.
     public String getReferenceNumber() { return referenceNumber; }
+    // Set the reference number in the response.
     public void setReferenceNumber(String referenceNumber) { this.referenceNumber = referenceNumber; }
 }
