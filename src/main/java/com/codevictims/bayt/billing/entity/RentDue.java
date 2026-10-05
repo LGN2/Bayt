@@ -60,14 +60,20 @@ public class RentDue {
     public BigDecimal getAmount() { return amount; }
     // Set the rent amount.
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+    // Return the amount already paid.
     public BigDecimal getPaidAmount() { return paidAmount; }
+    // Set the amount already paid.
     public void setPaidAmount(BigDecimal paidAmount) { this.paidAmount = paidAmount; }
 
+    // Calculate the rent amount still unpaid.
     public BigDecimal getOutstandingAmount() {
+        // Subtract paid rent from the full rent amount.
         return amount.subtract(paidAmount);
     }
 
+    // Check whether the rent has been fully paid.
     public boolean isPaid() {
+        // Compare the paid amount with the full rent amount.
         return paidAmount.compareTo(amount) >= 0;
     }
 }
