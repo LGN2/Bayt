@@ -95,11 +95,17 @@ public class ArrearsService {
             }
         }
 
+        // Create the financial summary response.
         FinancialSummaryResponse response = new FinancialSummaryResponse();
+        // Store the total rent due amount.
         response.setTotalRentDue(totalDue);
+        // Store the total paid amount.
         response.setTotalPaid(totalPaid);
+        // Store the total outstanding amount.
         response.setTotalOutstanding(totalOutstanding);
+        // Store the number of overdue rent records.
         response.setOverdueItems(overdue);
+        // Return the completed financial summary.
         return response;
     }
 }
