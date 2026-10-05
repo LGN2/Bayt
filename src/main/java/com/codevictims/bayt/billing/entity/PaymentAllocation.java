@@ -38,14 +38,23 @@ public class PaymentAllocation {
     // Keep the amount assigned to the rent due record.
     private BigDecimal allocatedAmount;
 
+    // Create an empty allocation object for JPA.
     public PaymentAllocation() {}
 
+    // Return the allocation ID.
     public Long getId() { return id; }
+    // Set the allocation ID.
     public void setId(Long id) { this.id = id; }
+    // Return the payment linked to this allocation.
     public Payment getPayment() { return payment; }
+    // Set the payment for this allocation.
     public void setPayment(Payment payment) { this.payment = payment; }
+    // Return the rent due record for this allocation.
     public RentDue getRentDue() { return rentDue; }
+    // Set the rent due record that receives the amount.
     public void setRentDue(RentDue rentDue) { this.rentDue = rentDue; }
+    // Return the amount assigned to the rent due record.
     public BigDecimal getAllocatedAmount() { return allocatedAmount; }
+    // Set the amount assigned by this allocation.
     public void setAllocatedAmount(BigDecimal allocatedAmount) { this.allocatedAmount = allocatedAmount; }
 }
