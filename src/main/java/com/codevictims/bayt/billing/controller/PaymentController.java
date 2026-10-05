@@ -39,13 +39,19 @@ public class PaymentController {
         this.allocationService = allocationService;
     }
 
+    // Handle requests that create a new payment.
     @PostMapping
+    // Receive a validated payment request from the HTTP body.
     public PaymentResponse create(@Valid @RequestBody CreatePaymentRequest request) {
+        // Ask the service to create the payment.
         return paymentService.create(request);
     }
 
+    // Handle requests that list every payment.
     @GetMapping
+    // Return all payment responses.
     public List<PaymentResponse> getAll() {
+        // Ask the service for every payment.
         return paymentService.getAll();
     }
 
