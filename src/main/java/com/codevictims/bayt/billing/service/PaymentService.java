@@ -58,8 +58,11 @@ public class PaymentService {
         // Copy the optional reference number from the request.
         payment.setReferenceNumber(request.getReferenceNumber());
 
+        // Save the new payment in the database.
         payment = paymentRepository.save(payment);
+        // Allocate the saved payment to related billing records.
         paymentAllocationService.allocatePayment(payment);
+        // Convert the saved payment into a response.
         return toResponse(payment);
     }
 
