@@ -162,9 +162,13 @@ public class ChequeService {
         response.setChequeNumber(cheque.getChequeNumber());
         // Copy the bank name into the response.
         response.setBankName(cheque.getBankName());
+        // Copy the cheque date into the response.
         response.setChequeDate(cheque.getChequeDate());
+        // Copy the cheque amount into the response.
         response.setAmount(cheque.getAmount());
+        // Copy the cheque status into the response.
         response.setStatus(cheque.getStatus());
+        // Return the completed cheque response.
         return response;
     }
 }
