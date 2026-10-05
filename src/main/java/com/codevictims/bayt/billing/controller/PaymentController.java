@@ -71,8 +71,11 @@ public class PaymentController {
         return paymentService.getByTenant(tenantId);
     }
 
+    // Handle requests for allocations linked to one payment.
     @GetMapping("/{id}/allocations")
+    // Read the payment ID used to find allocation records.
     public List<PaymentAllocationResponse> getAllocations(@PathVariable Long id) {
+        // Ask the allocation service for records tied to this payment.
         return allocationService.getByPayment(id);
     }
 }
