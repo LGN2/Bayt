@@ -37,14 +37,24 @@ public class CreateChequeRequest {
     // Store the amount written on the cheque.
     private BigDecimal amount;
 
+    // Return the tenant ID from the request.
     public Long getTenantId() { return tenantId; }
+    // Save the tenant ID received from the client.
     public void setTenantId(Long tenantId) { this.tenantId = tenantId; }
+    // Return the submitted cheque number.
     public String getChequeNumber() { return chequeNumber; }
+    // Save the cheque number from the request.
     public void setChequeNumber(String chequeNumber) { this.chequeNumber = chequeNumber; }
+    // Return the bank name from the request.
     public String getBankName() { return bankName; }
+    // Save the bank name received from the client.
     public void setBankName(String bankName) { this.bankName = bankName; }
+    // Return the cheque date from the request.
     public LocalDate getChequeDate() { return chequeDate; }
+    // Save the date written on the cheque.
     public void setChequeDate(LocalDate chequeDate) { this.chequeDate = chequeDate; }
+    // Return the requested cheque amount.
     public BigDecimal getAmount() { return amount; }
+    // Save the cheque amount from the request.
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 }
