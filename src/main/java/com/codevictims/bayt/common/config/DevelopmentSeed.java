@@ -12,6 +12,7 @@ import com.codevictims.bayt.maintenance.entity.VendorProfile;
 import com.codevictims.bayt.maintenance.service.MaintenanceService;
 import com.codevictims.bayt.property.entity.Building;
 import com.codevictims.bayt.property.entity.Notice;
+import com.codevictims.bayt.property.entity.Unit;
 import com.codevictims.bayt.property.service.PropertyService;
 import com.codevictims.bayt.tenancy.entity.Lease;
 import com.codevictims.bayt.tenancy.entity.Tenant;
