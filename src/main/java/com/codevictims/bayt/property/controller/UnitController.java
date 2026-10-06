@@ -53,6 +53,7 @@ public class UnitController {
     }
 
     private OperationalUnitResponse operationalUnit(
+            com.codevictims.propertymanagement.property.entity.Unit u) {
             com.codevictims.bayt.property.entity.Unit u) {
         return new OperationalUnitResponse(
                 u.id, u.buildingId, u.code, u.floorName, u.kind, u.availability);
