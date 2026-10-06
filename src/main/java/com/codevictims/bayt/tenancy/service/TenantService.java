@@ -1,6 +1,6 @@
 package com.codevictims.bayt.tenancy.service;
 
-import com.codevictims.bayt.common.audit.service.AuditService;
+import com.codevictims.bayt.common.service.AuditService;
 import com.codevictims.bayt.common.dto.Input;
 import com.codevictims.bayt.common.exception.ApiException;
 import com.codevictims.bayt.common.repository.PersistenceSupport;
