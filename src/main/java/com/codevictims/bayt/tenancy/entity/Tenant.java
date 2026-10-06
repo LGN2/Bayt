@@ -1,5 +1,5 @@
 package com.codevictims.bayt.tenancy.entity;
-import com.codevictims.bayt.entity.BaseEntity;
+import com.codevictims.bayt.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
