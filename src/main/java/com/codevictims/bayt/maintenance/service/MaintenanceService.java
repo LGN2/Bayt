@@ -9,6 +9,7 @@ import com.codevictims.bayt.maintenance.entity.Maintenance;
 import com.codevictims.bayt.maintenance.repository.MaintenanceRepository;
 import com.codevictims.bayt.maintenance.repository.VendorProfileRepository;
 import com.codevictims.bayt.property.entity.Building;
+import com.codevictims.bayt.property.entity.Unit;
 import com.codevictims.bayt.property.service.PropertyService;
 import com.codevictims.bayt.security.service.Access;
 import com.codevictims.bayt.tenancy.entity.Tenant;
