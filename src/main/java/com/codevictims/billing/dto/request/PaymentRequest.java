@@ -1,0 +1,19 @@
+package com.codevictims.billing.dto.request;
+
+import com.codevictims.bayt.common.dto.RequestDto;
+import jakarta.validation.constraints.*;
+import java.math.BigDecimal;
+import java.time.*;
+
+// Receive payment data from the API request.
+/** Editable input only. Ownership and ledger state are assigned by the service. */
+public record PaymentRequest(
+    @NotNull BigDecimal amount,
+    @NotBlank @Size(max = 255) String method,
+    @NotNull
+        @org.springframework.format.annotation.DateTimeFormat(
+            iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
+        LocalDate effectiveDate,
+    @NotBlank @Size(max = 255) String idempotencyKey,
+    @Size(max = 255) String reference)
+    implements RequestDto {}
