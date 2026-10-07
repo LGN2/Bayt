@@ -1,4 +1,4 @@
-package com.codevictims.bayt.tenancy.response;
+package com.codevictims.bayt.tenancy.dto.response;
 
 public record TenantResponse(
         Long id,

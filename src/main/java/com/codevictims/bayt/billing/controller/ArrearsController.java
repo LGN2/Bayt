@@ -1,5 +1,5 @@
 // Keep arrears API endpoints inside the billing controller package.
-package com.property.billing.controller;
+package com.codevictims.bayt.billing.controller;
 
 // Import arrears records returned to API clients.
 import com.property.billing.response.ArrearsResponse;

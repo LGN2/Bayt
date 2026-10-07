@@ -1,4 +1,4 @@
-package com.codevictims.bayt.tenancy.response;
+package com.codevictims.bayt.tenancy.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

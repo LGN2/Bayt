@@ -2,8 +2,8 @@ package com.codevictims.bayt.tenancy.controller;
 
 import com.codevictims.bayt.tenancy.entity.Lead;
 import com.codevictims.bayt.tenancy.mapper.LeadMapper;
-import com.codevictims.bayt.tenancy.request.LeadRequest;
-import com.codevictims.bayt.tenancy.response.LeadResponse;
+import com.codevictims.bayt.tenancy.dto.request.LeadRequest;
+import com.codevictims.bayt.tenancy.dto.response.LeadResponse;
 import com.codevictims.bayt.tenancy.service.LeadService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;

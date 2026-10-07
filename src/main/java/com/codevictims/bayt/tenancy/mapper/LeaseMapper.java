@@ -1,7 +1,7 @@
 package com.codevictims.bayt.tenancy.mapper;
 
 import com.codevictims.bayt.tenancy.entity.Lease;
-import com.codevictims.bayt.tenancy.response.LeaseResponse;
+import com.codevictims.bayt.tenancy.dto.response.LeaseResponse;
 
 public final class LeaseMapper {
 

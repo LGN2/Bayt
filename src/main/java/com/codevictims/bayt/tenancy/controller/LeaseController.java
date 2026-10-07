@@ -2,8 +2,8 @@ package com.codevictims.bayt.tenancy.controller;
 
 import com.codevictims.bayt.tenancy.entity.Lease;
 import com.codevictims.bayt.tenancy.mapper.LeaseMapper;
-import com.codevictims.bayt.tenancy.request.LeaseRequest;
-import com.codevictims.bayt.tenancy.response.LeaseResponse;
+import com.codevictims.bayt.tenancy.dto.request.LeaseRequest;
+import com.codevictims.bayt.tenancy.dto.response.LeaseResponse;
 import com.codevictims.bayt.tenancy.service.LeaseService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;

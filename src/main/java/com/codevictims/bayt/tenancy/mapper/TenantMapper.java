@@ -1,7 +1,7 @@
 package com.codevictims.bayt.tenancy.mapper;
 
 import com.codevictims.bayt.tenancy.entity.Tenant;
-import com.codevictims.bayt.tenancy.response.TenantResponse;
+import com.codevictims.bayt.tenancy.dto.response.TenantResponse;
 
 public final class TenantMapper {
 

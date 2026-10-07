@@ -1,8 +1,8 @@
 // Keep rent due database access classes inside the billing repository package.
-package com.property.billing.repository;
+package com.codevictims.bayt.billing.repository;
 
 // Import the rent due entity stored by this repository.
-import com.property.billing.entity.RentDue;
+import com.codevictims.bayt.billing.entity.RentDue;
 // Import Spring Data JPA repository support.
 import org.springframework.data.jpa.repository.JpaRepository;
 // Import LocalDate for due date searches.

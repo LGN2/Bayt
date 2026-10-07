@@ -1,7 +1,7 @@
 package com.codevictims.bayt.tenancy.mapper;
 
 import com.codevictims.bayt.tenancy.entity.Lead;
-import com.codevictims.bayt.tenancy.response.LeadResponse;
+import com.codevictims.bayt.tenancy.dto.response.LeadResponse;
 
 public final class LeadMapper {
 

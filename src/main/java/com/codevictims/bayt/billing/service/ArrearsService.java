@@ -1,14 +1,14 @@
 // Keep arrears business logic inside the billing service package.
-package com.property.billing.service;
+package com.codevictims.bayt.billing.service;
 
 // Import rent due records used to calculate arrears.
-import com.property.billing.entity.RentDue;
+import com.codevictims.bayt.billing.entity.RentDue;
 // Import the repository used to read rent due records.
-import com.property.billing.repository.RentDueRepository;
+import com.codevictims.bayt.billing.repository.RentDueRepository;
 // Import the response used for overdue rent records.
-import com.property.billing.response.ArrearsResponse;
+import com.codevictims.bayt.billing.response.ArrearsResponse;
 // Import the response used for financial totals.
-import com.property.billing.response.FinancialSummaryResponse;
+import com.codevictims.bayt.billing.response.FinancialSummaryResponse;
 // Import the Spring service annotation.
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,5 @@
 // Keep billing controller error handling in this package.
-package com.property.billing.controller;
+package com.codevictims.bayt.billing.controller;
 
 // Import HTTP status values for error responses.
 import org.springframework.http.HttpStatus;

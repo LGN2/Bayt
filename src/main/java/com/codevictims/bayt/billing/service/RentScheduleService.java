@@ -1,12 +1,12 @@
 // Keep rent schedule business logic inside the billing service package.
-package com.property.billing.service;
+package com.codevictims.bayt.billing.service;
 
 // Import the rent due entity saved in the database.
-import com.property.billing.entity.RentDue;
+import com.codevictims.bayt.billing.entity.RentDue;
 // Import the repository used for rent due records.
-import com.property.billing.repository.RentDueRepository;
+import com.codevictims.bayt.billing.repository.RentDueRepository;
 // Import the response object returned to clients.
-import com.property.billing.response.RentDueResponse;
+import com.codevictims.bayt.billing.response.RentDueResponse;
 // Import the Spring service annotation.
 import org.springframework.stereotype.Service;
 

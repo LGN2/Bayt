@@ -1,5 +1,5 @@
 // Keep financial summary responses inside the billing response package.
-package com.property.billing.response;
+package com.codevictims.bayt.billing.response;
 
 // Import BigDecimal for financial totals.
 import java.math.BigDecimal;

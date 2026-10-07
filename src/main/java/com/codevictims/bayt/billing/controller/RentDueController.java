@@ -1,5 +1,5 @@
 // Keep rent due API endpoints inside the billing controller package.
-package com.property.billing.controller;
+package com.codevictims.bayt.billing.controller;
 
 // Import rent due responses returned to API clients.
 import com.property.billing.response.RentDueResponse;

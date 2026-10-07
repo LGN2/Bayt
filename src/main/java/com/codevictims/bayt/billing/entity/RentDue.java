@@ -1,5 +1,5 @@
 // Keep rent due entities inside the billing entity package.
-package com.property.billing.entity;
+package com.codevictims.bayt.billing.entity;
 
 // Import JPA annotations used to map this class to the database.
 import jakarta.persistence.*;

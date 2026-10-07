@@ -1,5 +1,5 @@
 // Keep rent due response objects inside the billing response package.
-package com.property.billing.response;
+package com.codevictims.bayt.billing.response;
 
 // Import BigDecimal for returned money values.
 import java.math.BigDecimal;

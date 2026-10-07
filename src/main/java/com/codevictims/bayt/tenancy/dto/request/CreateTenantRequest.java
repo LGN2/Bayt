@@ -1,4 +1,4 @@
-package com.codevictims.bayt.tenancy.request;
+package com.codevictims.bayt.tenancy.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
