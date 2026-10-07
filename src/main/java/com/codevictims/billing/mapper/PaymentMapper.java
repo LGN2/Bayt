@@ -5,8 +5,6 @@ import com.codevictims.billing.entity.Payment;
 
 public final class PaymentMapper {
   private PaymentMapper() {}
-
-  // Convert the payment entity to a response.
   public static PaymentResponse toResponse(Payment entity) {
     if (entity == null) return null;
     return new PaymentResponse(

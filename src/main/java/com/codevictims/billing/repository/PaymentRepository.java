@@ -9,8 +9,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
       "select p from Payment p where p.leaseId=:id order by p.effectiveDate desc,p.id desc")
   java.util.List<Payment> findByLeaseOrderByEffectiveDate(
       @org.springframework.data.repository.query.Param("id") Long id);
-
-  // Find payments for a lease using the idempotency key.
   @org.springframework.data.jpa.repository.Query(
       "select p from Payment p where p.leaseId=:id and p.idempotencyKey=:key")
   java.util.List<Payment> findByLeaseAndIdempotencyKey(
