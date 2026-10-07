@@ -1,5 +1,6 @@
 package com.codevictims.bayt.tenancy.dto.request;
 
+import com.codevictims.bayt.common.dto.RequestDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -25,5 +26,6 @@ public record CreateTenantRequest(
         String phone,
 
         String emergencyContact
-) {
+
+) implements RequestDto {
 }
