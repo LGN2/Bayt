@@ -1,34 +1,32 @@
 package com.codevictims.bayt.tenancy.service;
 
-import com.codevictims.bayt.common.audit.service.AuditService;
 import com.codevictims.bayt.common.dto.Input;
 import com.codevictims.bayt.common.exception.ApiException;
 import com.codevictims.bayt.common.repository.PersistenceSupport;
+import com.codevictims.bayt.common.service.AuditService;
 import com.codevictims.bayt.property.service.PropertyService;
-import com.codevictims.bayt.security.authorization.AccessService;
+import com.codevictims.bayt.security.service.Access;
 import com.codevictims.bayt.tenancy.entity.Tenant;
 import com.codevictims.bayt.tenancy.repository.TenantRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 
 @Service
-@Transactional(
-        isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED
-)
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class TenantService {
 
     private final TenantRepository tenantRepository;
     private final PersistenceSupport db;
-    private final AccessService access;
+    private final Access access;
     private final AuditService audit;
     private final PropertyService properties;
-
     public TenantService(
             PersistenceSupport db,
-            AccessService access,
+            Access access,
             AuditService audit,
             PropertyService properties,
             TenantRepository tenantRepository) {
@@ -40,9 +38,11 @@ public class TenantService {
         this.properties = properties;
     }
 
-    // Tenant Listing
-    public List<Tenant> tenants(Long building) {
+    public Tenant get(Long id) {
+        return access.tenant(id);
+    }
 
+    public List<Tenant> tenants(Long building) {
         access.role("OWNER", "MANAGER", "TENANT");
 
         var ids = properties.scope(building);
@@ -61,9 +61,7 @@ public class TenantService {
         return tenantRepository.findInBuildings(ids);
     }
 
-    // Tenant Create / Update
     public Tenant tenant(Input in, Long id) {
-
         Long buildingId = in.id("buildingId");
 
         access.manage(buildingId);
@@ -74,53 +72,24 @@ public class TenantService {
 
         if (id != null
                 && !Objects.equals(tenant.getBuildingId(), buildingId)) {
-
             throw ApiException.invalid("INVALID_INPUT");
         }
 
         tenant.setBuildingId(buildingId);
-
-        tenant.setName(
-                in.text("name", 255)
-        );
-
-        tenant.setKind(
-                in.choice(
-                        "kind",
-                        "PERSON",
-                        "COMPANY"
-                )
-        );
-
-        tenant.setEmail(
-                in.optional("email")
-        );
-
-        tenant.setPhone(
-                in.text("phone", 80)
-        );
-
-        tenant.setEmergencyContact(
-                in.optional("emergencyContact")
-        );
+        tenant.setName(in.text("name", 255));
+        tenant.setKind(in.choice("kind", "PERSON", "COMPANY"));
+        tenant.setEmail(in.optional("email"));
+        tenant.setPhone(in.text("phone", 80));
+        tenant.setEmergencyContact(in.optional("emergencyContact"));
 
         Long accountId = in.nullableId("accountId");
 
         if (accountId != null) {
-            access.portfolioUser(
-                    accountId,
-                    buildingId,
-                    "TENANT"
-            );
+            access.portfolioUser(accountId, buildingId, "TENANT");
         }
 
-      
         if (id != null
-                && !Objects.equals(
-                accountId,
-                tenant.getAccountId()
-        )) {
-
+                && !Objects.equals(accountId, tenant.getAccountId())) {
             access.owner(buildingId);
         }
 

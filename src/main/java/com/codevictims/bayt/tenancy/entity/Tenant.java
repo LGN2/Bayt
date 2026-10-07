@@ -1,5 +1,6 @@
 package com.codevictims.bayt.tenancy.entity;
-import com.codevictims.bayt.entity.BaseEntity;
+
+import com.codevictims.bayt.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -14,23 +15,27 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Tenant extends BaseEntity {
 
-    @Column(nullable = false)
-    private Long buildingId;
+    public Long getId() {
+        return id;
+    }
 
-    private Long accountId;
+    @Column(nullable = false)
+    public Long buildingId;
+
+    public Long accountId;
 
     @Column(nullable = false)
-    private String name;
+    public String name;
 
     @Column(nullable = false, length = 40)
-    private String kind;
+    public String kind;
 
     @Column(nullable = false)
-    private String email;
+    public String email;
 
     @Column(nullable = false)
-    private String phone;
+    public String phone;
 
     @Column(nullable = false)
-    private String emergencyContact;
+    public String emergencyContact;
 }
