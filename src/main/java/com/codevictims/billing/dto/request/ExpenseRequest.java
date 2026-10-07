@@ -5,15 +5,16 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.*;
 
-// Receive payment data from the API request.
+// Receive the information required to create an expense.
 /** Editable input only. Ownership and ledger state are assigned by the service. */
-public record PaymentRequest(
+public record ExpenseRequest(
+    @NotNull @Positive Long buildingId,
+    @Positive Long unitId,
     @NotNull BigDecimal amount,
-    @NotBlank @Size(max = 255) String method,
     @NotNull
         @org.springframework.format.annotation.DateTimeFormat(
             iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
-        LocalDate effectiveDate,
-    @NotBlank @Size(max = 255) String idempotencyKey,
-    @Size(max = 255) String reference)
+        LocalDate expenseDate,
+    @NotBlank @Size(max = 255) String category,
+    @NotBlank @Size(max = 2000) String description)
     implements RequestDto {}
