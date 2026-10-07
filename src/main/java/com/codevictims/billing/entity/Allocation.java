@@ -1,8 +1,9 @@
 package com.codevictims.billing.entity;
 
-import com.codevictims.propertymanagement.common.entity.BaseEntity;
+import com.codevictims.bayt.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.*;
 
 @Entity
 @Table(name = "allocation")
