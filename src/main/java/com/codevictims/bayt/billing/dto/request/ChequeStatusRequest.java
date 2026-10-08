@@ -1,0 +1,14 @@
+package com.codevictims.bayt.billing.dto.request;
+
+import com.codevictims.bayt.common.dto.RequestDto;
+import jakarta.validation.constraints.*;
+import java.time.*;
+
+// Receive data used to change the cheque status.
+/** Editable input only. Ownership and ledger state are assigned by the service. */
+public record ChequeStatusRequest(
+    @NotBlank @Size(max = 255) String status,
+    @org.springframework.format.annotation.DateTimeFormat(
+            iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
+        LocalDate effectiveDate)
+    implements RequestDto {}

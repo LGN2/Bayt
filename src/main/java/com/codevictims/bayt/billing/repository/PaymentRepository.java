@@ -1,15 +1,18 @@
-// Keep payment database access classes inside the billing repository package.
 package com.codevictims.bayt.billing.repository;
 
-// Import the payment entity stored by this repository.
 import com.codevictims.bayt.billing.entity.Payment;
-// Import Spring Data JPA repository support.
 import org.springframework.data.jpa.repository.JpaRepository;
-// Import List for returning many payment records.
-import java.util.List;
 
-// Provide database operations for Payment records with Long IDs.
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
-    // Find payments for one tenant, newest payment first.
-    List<Payment> findByTenantIdOrderByPaymentDateDesc(Long tenantId);
+  // Find payments for a lease, newest effective date first.
+  @org.springframework.data.jpa.repository.Query(
+      "select p from Payment p where p.leaseId=:id order by p.effectiveDate desc,p.id desc")
+  java.util.List<Payment> findByLeaseOrderByEffectiveDate(
+      @org.springframework.data.repository.query.Param("id") Long id);
+
+  @org.springframework.data.jpa.repository.Query(
+      "select p from Payment p where p.leaseId=:id and p.idempotencyKey=:key")
+  java.util.List<Payment> findByLeaseAndIdempotencyKey(
+      @org.springframework.data.repository.query.Param("id") Long id,
+      @org.springframework.data.repository.query.Param("key") String key);
 }
