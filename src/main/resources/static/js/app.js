@@ -87,14 +87,14 @@ function shell() {
   root.innerHTML = `<aside class="sidebar" aria-label="${t("management")}">${brand()}<div class="nav-section">${t("portfolio")}</div><nav>${navigation()
     .map(
       ([name, ico]) =>
-        `<a href="#${name}" class="nav-item ${key === name ? "active" : ""}">${icon(ico)}<span>${t(name)}</span></a>`,
+        `<a href="#${name}" class="nav-item ${key === name ? "active" : ""}" ${key === name ? 'aria-current="page"' : ""}>${icon(ico)}<span>${t(name)}</span></a>`,
     )
     .join(
       "",
     )}</nav><div class="sidebar-foot"><div class="profile"><span class="avatar">${esc(me.name.charAt(0))}</span><div><strong>${esc(me.name)}</strong><small>${t(me.role)}</small></div></div><button class="nav-item" data-action="logout">${icon("logout")}${t("logout")}</button></div></aside><div class="workspace"><header class="topbar"><div><button class="menu-toggle" aria-label="${t("management")}" data-action="menu">${icon("menu")}</button><span class="breadcrumb">${t("home")} &nbsp; / &nbsp; <strong>${t(modules[key]?.title || key)}</strong></span></div><div class="top-actions"><span class="today">${date(today())}</span>${localeButton()}<button class="language" data-action="password" aria-label="${t("changePassword")}">${icon("shield")}</button></div></header><main id="main" class="content" tabindex="-1">${loading()}</main></div>`;
 }
 function showLogin(error) {
-  root.innerHTML = `<main id="main" class="login"><section class="login-art">${brand()}<h1>${esc(t("loginHeadline")).replace("\n", "<br>")}</h1><p>${t("loginDescription")}</p><div class="hero-art" aria-hidden="true"><span></span><span></span><span></span></div></section><section class="login-form">${localeButton()}<h2>${t("loginTitle")}</h2><p class="muted">${t("loginText")}</p><form id="login-form"><label class="field">${t("username")}<input name="username" required autocomplete="username" dir="ltr"></label><label class="field">${t("password")}<input type="password" name="password" required autocomplete="current-password"></label><div id="login-error">${error ? errorBox(error) : ""}</div><button class="btn" type="submit">${t("login")}</button></form><p class="login-foot">${t("loginFoot")}</p></section></main>`;
+  root.innerHTML = `<main id="main" class="login"><section class="login-art">${brand()}<h1>${esc(t("loginHeadline")).replace("\n", "<br>")}</h1><p>${t("loginDescription")}</p><div class="hero-art" aria-hidden="true"><span></span><span></span><span></span></div></section><section class="login-form">${brand()}${localeButton()}<h2>${t("loginTitle")}</h2><p class="muted">${t("loginText")}</p><form id="login-form"><label class="field">${t("username")}<input name="username" required autocomplete="username" dir="ltr"></label><label class="field">${t("password")}<input type="password" name="password" required autocomplete="current-password"></label><div id="login-error">${error ? errorBox(error) : ""}</div><button class="btn" type="submit">${t("login")}</button></form><p class="login-foot">${t("loginFoot")}</p></section></main>`;
   root.querySelector("form").onsubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -513,7 +513,7 @@ async function dashboard(key) {
     ) +
     filterHtml +
     (key === "dashboard"
-      ? `<section class="hero"><div><div class="eyebrow">${t("heroEyebrow")}</div><h2>${t("heroTitle")}</h2><p>${t("heroText")}</p></div><div class="hero-art" aria-hidden="true"><span></span><span></span><span></span></div></section>`
+      ? `<section class="hero"><div><div class="eyebrow">${t("heroEyebrow")}</div><h2>${t("heroTitle")}</h2><p>${t("heroText")}</p><div class="hero-links">${staff() ? link("buildings", "#buildings", "secondary") : link("leases", "#leases", "secondary")}${link("maintenance", "#maintenance", "secondary")}</div></div><div class="hero-art" aria-hidden="true"><span></span><span></span><span></span></div></section>`
       : "") +
     `<section class="metrics">${metric("expectedRent", r.expectedRent, "money", "monthlyRent")}${metric("settledCollections", r.settledCollections, "check", "grossCollections")}${metric("overdue", r.overdue, "calendar", "asOf")}${metric("occupancyPercent", r.occupancyPercent, "building", "liveRecords", "%")}</section>`;
   const detail =
@@ -535,7 +535,7 @@ async function dashboard(key) {
       : "";
   const overview =
     key === "dashboard"
-      ? `<div class="dashboard-grid"><section class="card"><div class="card-head"><h2>${t("portfolioOverview")}</h2><small>${r.unitCount} ${t("units")}</small></div><div class="occupancy-bar"><span>${t("occupied")}: ${r.occupied}</span><span>${t("vacant")}: ${r.vacant}</span></div><progress value="${r.occupied}" max="${Math.max(r.unitCount, 1)}" aria-label="${t("occupancyPercent")}"></progress>${buildings
+      ? `<div class="dashboard-grid"><section class="card"><div class="card-head"><h2>${t("portfolioOverview")}</h2><small>${r.unitCount} ${t("units")}</small></div><div class="occupancy-summary"><div class="occupancy-ring" style="--occupancy:${r.unitCount > 0 ? Math.min(100, Math.max(0, r.occupied / r.unitCount * 100)) : 0}%" aria-hidden="true"><div><strong>${r.unitCount > 0 ? Math.round(r.occupied / r.unitCount * 100) + "%" : "—"}</strong><small>${t("occupancyPercent")}</small></div></div><div class="occupancy-legend"><div><span class="legend-dot occupied"></span>${t("occupied")}<strong>${r.occupied}</strong></div><div><span class="legend-dot vacant"></span>${t("vacant")}<strong>${r.vacant}</strong></div><progress value="${r.occupied}" max="${Math.max(r.unitCount, 1)}" aria-label="${t("occupancyPercent")}"></progress></div></div>${buildings
           .filter((b) => !buildingId || String(b.id) === buildingId)
           .map(
             (b) =>
