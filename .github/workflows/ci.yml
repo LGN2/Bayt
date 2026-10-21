@@ -1,78 +1,45 @@
-name: CI
-
+name: Verify application
 on:
   push:
-    branches: ["master", "fixing", "database", "frontend", "spring-ai"]
+    branches: [master, fixing, database, frontend, spring-ai]
   pull_request:
-    branches: ["master"]
-  workflow_dispatch:
-
 permissions:
   contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  build-and-test:
-    name: Build and Test
+  verify:
+    strategy:
+      matrix:
+        java: ["17", "21"]
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     services:
       mysql:
-        image: mysql:8.4
+        image: mysql:8.4.6
         env:
-          MYSQL_ROOT_PASSWORD: root_ci_password
-          MYSQL_DATABASE: property_management_test
-          MYSQL_USER: ci_user
-          MYSQL_PASSWORD: ci_password
-        ports:
-          - 3306:3306
+          MYSQL_DATABASE: Bayt_v2_test
+          MYSQL_USER: bayt
+          MYSQL_PASSWORD: test-only-password
+          MYSQL_ROOT_PASSWORD: test-only-root
+        ports: ["3306:3306"]
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
+          --health-cmd="mysqladmin ping -h localhost -ptest-only-root"
+          --health-interval=5s --health-timeout=5s --health-retries=30
     env:
-      SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/property_management_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: ci_user
-      SPRING_DATASOURCE_PASSWORD: ci_password
-
+      TEST_DB_URL: jdbc:mysql://localhost:3306/Bayt_v2_test?connectionTimeZone=UTC
+      TEST_DB_USER: bayt
+      TEST_DB_PASSWORD: test-only-password
+      COOKIE_SECURE: false
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Java 21
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: ${{ matrix.java }}
           cache: maven
-
-      - name: Make Maven wrapper executable
-        run: chmod +x mvnw
-
-      - name: Build and run tests
-        run: ./mvnw --batch-mode --no-transfer-progress clean verify
-
-      - name: Upload test reports
+      - run: chmod +x mvnw && ./mvnw -B verify
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: test-reports
+          name: test-results-java-${{ matrix.java }}
           path: |
             target/surefire-reports/
             target/failsafe-reports/
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: Upload application JAR
-        uses: actions/upload-artifact@v4
-        with:
-          name: application-jar
-          path: target/*.jar
-          if-no-files-found: error
-          retention-days: 7
