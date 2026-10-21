@@ -39,7 +39,7 @@ Normal startup creates only a PLATFORM_ADMIN when the database is empty and boot
 are supplied. Sign in, create an OWNER through account management, then create that owner's staff,
 tenants and vendors. Remove bootstrap environment variables after initialization. No default
 password is committed. For disposable local demos explicitly set SPRING_PROFILES_ACTIVE=dev
-and DEMO_PASSWORD. Demo accounts: owner, owner2, manager, tenant, vendor, guard, admin.
+and DEMO_PASSWORD. Demo accounts: owner@demo.test, owner2@demo.test, manager@demo.test, tenant@demo.test, vendor@demo.test, guard@demo.test, admin@demo.test.
 Development seeding is disabled for every other profile.
 
 ## Tests

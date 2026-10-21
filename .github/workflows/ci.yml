@@ -36,6 +36,31 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
       - run: chmod +x mvnw && ./mvnw -B verify
+      - name: Verify application restart preserves migrated data
+        env:
+          DB_URL: jdbc:mysql://localhost:3306/Bayt_v2_test?connectionTimeZone=UTC
+          DB_USER: bayt
+          DB_PASSWORD: test-only-password
+          MYSQL_PWD: test-only-password
+        run: |
+          before=$(mysql -h 127.0.0.1 -u bayt -N -e "SELECT COUNT(*) FROM Bayt_v2_test.user_account")
+          test "$before" -gt 0
+          for cycle in 1 2; do
+            java -jar target/Bayt-1.0.0-SNAPSHOT.jar > "startup-$cycle.log" 2>&1 &
+            app_pid=$!
+            trap 'kill "$app_pid" 2>/dev/null || true' EXIT
+            ready=false
+            for attempt in $(seq 1 60); do
+              if curl -fsS http://localhost:8080/api/health; then ready=true; break; fi
+              sleep 2
+            done
+            test "$ready" = true || { cat "startup-$cycle.log"; exit 1; }
+            after=$(mysql -h 127.0.0.1 -u bayt -N -e "SELECT COUNT(*) FROM Bayt_v2_test.user_account")
+            test "$before" = "$after"
+            kill "$app_pid"
+            wait "$app_pid" || true
+            trap - EXIT
+          done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
