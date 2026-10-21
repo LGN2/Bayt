@@ -1,18 +1,5 @@
 package com.codevictims.bayt.maintenance.service;
-
-import com.fasterxml.jackson.databind.*;
-import jakarta.annotation.PreDestroy;
-import java.util.*;
-import java.util.concurrent.*;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-
 @Service
 public class AiAssistant implements AutoCloseable {
   public record Suggestion(String summary, String category) {}
