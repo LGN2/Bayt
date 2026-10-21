@@ -8,7 +8,6 @@ import java.time.*;
 @Entity
 @Table(name = "cheque")
 public class Cheque extends BaseEntity {
-
   @Column(nullable = false)
   public Long leaseId;
 

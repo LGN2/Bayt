@@ -3,7 +3,6 @@ package com.codevictims.bayt.billing.mapper;
 import com.codevictims.bayt.billing.dto.response.DepositEntryResponse;
 import com.codevictims.bayt.billing.entity.DepositEntry;
 
-// Convert deposit entities into API responses.
 public final class DepositEntryMapper {
   private DepositEntryMapper() {}
 

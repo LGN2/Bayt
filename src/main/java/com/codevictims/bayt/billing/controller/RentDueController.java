@@ -2,9 +2,9 @@
 package com.codevictims.bayt.billing.controller;
 
 // Import rent due responses returned to API clients.
-import com.property.billing.response.RentDueResponse;
+import com.codevictims.bayt.billing.response.RentDueResponse;
 // Import the service that handles rent due work.
-import com.property.billing.service.RentScheduleService;
+import com.codevictims.bayt.billing.service.RentScheduleService;
 // Import Spring MVC annotations for REST endpoints.
 import org.springframework.web.bind.annotation.*;
 

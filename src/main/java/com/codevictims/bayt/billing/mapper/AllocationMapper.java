@@ -6,7 +6,6 @@ import com.codevictims.bayt.billing.entity.Allocation;
 public final class AllocationMapper {
   private AllocationMapper() {}
 
-  // Convert the allocation entity to a response.
   public static AllocationResponse toResponse(Allocation entity) {
     if (entity == null) return null;
     return new AllocationResponse(

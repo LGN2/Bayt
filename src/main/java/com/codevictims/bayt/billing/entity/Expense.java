@@ -8,7 +8,6 @@ import java.time.*;
 @Entity
 @Table(name = "expense")
 public class Expense extends BaseEntity {
-  // Store an expense related to a building or unit.
   @Column(nullable = false)
   public Long buildingId;
 

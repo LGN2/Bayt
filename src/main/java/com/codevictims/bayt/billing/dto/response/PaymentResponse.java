@@ -3,7 +3,6 @@ package com.codevictims.bayt.billing.dto.response;
 import java.math.BigDecimal;
 import java.time.*;
 
-// Return payment information to the client.
 public record PaymentResponse(
     Long id,
     long version,

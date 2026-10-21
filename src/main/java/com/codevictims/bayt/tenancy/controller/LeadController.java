@@ -1,85 +1,62 @@
 package com.codevictims.bayt.tenancy.controller;
 
-import com.codevictims.bayt.tenancy.entity.Lead;
-import com.codevictims.bayt.tenancy.mapper.LeadMapper;
+import com.codevictims.bayt.common.dto.PageSlice;
+import com.codevictims.bayt.common.mapper.RequestMapper;
+import com.codevictims.bayt.property.service.OperationsService;
 import com.codevictims.bayt.tenancy.dto.request.LeadRequest;
 import com.codevictims.bayt.tenancy.dto.response.LeadResponse;
-import com.codevictims.bayt.tenancy.service.LeadService;
+import com.codevictims.bayt.tenancy.entity.Lead;
+import com.codevictims.bayt.tenancy.mapper.LeadMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/tenancy/leads")
+@RequestMapping("/api/operations/leads")
 public class LeadController {
+  private final OperationsService service;
+  private final ObjectMapper json;
 
-    private final LeadService service;
+  public LeadController(OperationsService service, ObjectMapper json) {
+    this.service = service;
+    this.json = json;
+  }
 
-    public LeadController(LeadService service) {
-        this.service = service;
-    }
+  @GetMapping
+  public PageSlice<LeadResponse> list(
+      @RequestParam(required = false) Long buildingId,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size,
+      @RequestParam(defaultValue = "") String q) {
+    var rows = service.list("leads", buildingId).stream().map(Lead.class::cast).toList();
+    return PageSlice.of(
+            rows,
+            page,
+            size,
+            q,
+            r -> {
+              try {
+                return json.writeValueAsString(r);
+              } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+                throw new IllegalStateException(e);
+              }
+            })
+        .map(LeadMapper::toResponse);
+  }
 
-    @GetMapping
-    public List<LeadResponse> list() {
+  @GetMapping("/{id}")
+  public LeadResponse get(@PathVariable Long id) {
+    return LeadMapper.toResponse((Lead) service.get("leads", id));
+  }
 
-        return service.getAll()
-                .stream()
-                .map(LeadMapper::toResponse)
-                .toList();
-    }
+  @PostMapping
+  public LeadResponse create(@Valid @RequestBody LeadRequest request) {
+    return LeadMapper.toResponse(
+        (Lead) service.save("leads", null, RequestMapper.toInput(request)));
+  }
 
-    @GetMapping("/{id}")
-    public LeadResponse get(@PathVariable Long id) {
-
-        return LeadMapper.toResponse(
-                service.getById(id)
-        );
-    }
-
-    @PostMapping
-    public LeadResponse create(
-            @Valid @RequestBody LeadRequest request) {
-
-        Lead lead = new Lead();
-
-        lead.setBuildingId(request.buildingId());
-        lead.setUnitId(request.unitId());
-        lead.setName(request.name());
-        lead.setPhone(request.phone());
-        lead.setStatus(request.status());
-        lead.setViewingAt(request.viewingAt());
-        lead.setFollowUpDate(request.followUpDate());
-        lead.setNotes(request.notes());
-
-        return LeadMapper.toResponse(
-                service.create(lead)
-        );
-    }
-
-    @PutMapping("/{id}")
-    public LeadResponse update(
-            @PathVariable Long id,
-            @Valid @RequestBody LeadRequest request) {
-
-        Lead lead = new Lead();
-
-        lead.setBuildingId(request.buildingId());
-        lead.setUnitId(request.unitId());
-        lead.setName(request.name());
-        lead.setPhone(request.phone());
-        lead.setStatus(request.status());
-        lead.setViewingAt(request.viewingAt());
-        lead.setFollowUpDate(request.followUpDate());
-        lead.setNotes(request.notes());
-
-        return LeadMapper.toResponse(
-                service.update(id, lead)
-        );
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
-    }
+  @PutMapping("/{id}")
+  public LeadResponse update(@PathVariable Long id, @Valid @RequestBody LeadRequest request) {
+    return LeadMapper.toResponse((Lead) service.save("leads", id, RequestMapper.toInput(request)));
+  }
 }

@@ -1,43 +1,33 @@
 package com.codevictims.bayt.tenancy.entity;
 
 import com.codevictims.bayt.common.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import java.time.Instant;
-import java.time.LocalDate;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import java.time.*;
 
 @Entity
 @Table(name = "leasing_lead")
-@Getter
-@Setter
-@NoArgsConstructor
 public class Lead extends BaseEntity {
+  @Column(nullable = false)
+  public Long buildingId;
 
-    @Column(nullable = false)
-    private Long buildingId;
+  @Column(nullable = false)
+  public Long unitId;
 
-    @Column(nullable = false)
-    private Long unitId;
+  @Column(nullable = false)
+  public String name = "";
 
-    @Column(nullable = false)
-    private String name = "";
+  @Column(nullable = false)
+  public String phone = "";
 
-    @Column(nullable = false)
-    private String phone = "";
+  @Column(nullable = false, length = 40)
+  public String status = "";
 
-    @Column(nullable = false, length = 40)
-    private String status = "";
+  @Column(nullable = true)
+  public Instant viewingAt;
 
-    @Column(nullable = true)
-    private Instant viewingAt;
+  @Column(nullable = true)
+  public LocalDate followUpDate;
 
-    @Column(nullable = true)
-    private LocalDate followUpDate;
-
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String notes = "";
+  @Column(nullable = false, columnDefinition = "TEXT")
+  public String notes = "";
 }

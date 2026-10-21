@@ -3,9 +3,11 @@ package com.codevictims.bayt.billing.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+
 /** Pure allocation rules, independent of HTTP and persistence. Caller orders dues oldest first. */
 public final class MoneyRules {
   private MoneyRules() {}
+
   public record Balance(long dueId, BigDecimal remaining) {}
 
   public record Part(long dueId, BigDecimal amount) {}
@@ -13,7 +15,6 @@ public final class MoneyRules {
   public static List<Part> allocate(BigDecimal requested, List<Balance> dues) {
     BigDecimal amount = requested.setScale(3, RoundingMode.UNNECESSARY);
     if (amount.signum() <= 0) throw new IllegalArgumentException("INVALID_AMOUNT");
-
     BigDecimal total =
         dues.stream().map(Balance::remaining).reduce(BigDecimal.ZERO, BigDecimal::add);
     if (amount.compareTo(total) > 0) throw new IllegalArgumentException("OVERPAYMENT");

@@ -1,104 +1,36 @@
-// Keep rent schedule business logic inside the billing service package.
 package com.codevictims.bayt.billing.service;
-
-// Import the rent due entity saved in the database.
-import com.codevictims.bayt.billing.entity.RentDue;
-// Import the repository used for rent due records.
-import com.codevictims.bayt.billing.repository.RentDueRepository;
-// Import the response object returned to clients.
+import com.codevictims.bayt.billing.entity.Due;
 import com.codevictims.bayt.billing.response.RentDueResponse;
-// Import the Spring service annotation.
+import com.codevictims.bayt.billing.dto.response.DueBalanceResponse;
+import com.codevictims.bayt.billing.repository.DueRepository;
+import com.codevictims.bayt.common.exception.ApiException;
+import com.codevictims.bayt.common.repository.PersistenceSupport;
+import com.codevictims.bayt.security.service.Access;
+import com.codevictims.bayt.tenancy.entity.Lease;
+import com.codevictims.bayt.tenancy.service.LeaseService;
+import java.math.*;
+import java.time.*;
+import java.util.*;
 import org.springframework.stereotype.Service;
-
-// Import BigDecimal for rent amount values.
-import java.math.BigDecimal;
-// Import LocalDate for rent due dates.
-import java.time.LocalDate;
-// Import ArrayList for building response lists.
-import java.util.ArrayList;
-// Import List for returning many rent due responses.
-import java.util.List;
-
-// Mark this class as a Spring service.
+import org.springframework.transaction.annotation.Transactional;
+/** Compatibility API backed exclusively by the authoritative Due/allocation ledger. */
 @Service
-// Handle rent due scheduling operations.
+@Transactional
 public class RentScheduleService {
-    // Store the repository used for rent due records.
-    private final RentDueRepository rentDueRepository;
-
-    // Receive the rent due repository through the constructor.
-    public RentScheduleService(RentDueRepository rentDueRepository) {
-        // Keep the repository for later database work.
-        this.rentDueRepository = rentDueRepository;
-    }
-
-    // Create one rent due record.
-    public RentDueResponse createRentDue(Long leaseId, LocalDate dueDate, BigDecimal amount) {
-        // Check that the rent amount is present and positive.
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            // Stop when the amount is missing or not greater than zero.
-            throw new IllegalArgumentException("Amount must be greater than zero");
-        }
-
-        // Create a new rent due entity.
-        RentDue rentDue = new RentDue();
-        // Link the rent due record to the lease.
-        rentDue.setLeaseId(leaseId);
-        // Store the date when rent becomes due.
-        rentDue.setDueDate(dueDate);
-        // Store the full rent amount.
-        rentDue.setAmount(amount);
-        // Start the paid amount at zero.
-        rentDue.setPaidAmount(BigDecimal.ZERO);
-        // Save the rent due record and convert it to a response.
-        return toResponse(rentDueRepository.save(rentDue));
-    }
-
-    // Return every rent due record as response objects.
-    public List<RentDueResponse> getAll() {
-        // Create a list to collect rent due responses.
-        List<RentDueResponse> responses = new ArrayList<>();
-        // Read every rent due record from the database.
-        for (RentDue due : rentDueRepository.findAll()) {
-            // Convert each rent due record and add it to the list.
-            responses.add(toResponse(due));
-        }
-        // Return all converted rent due responses.
-        return responses;
-    }
-
-    // Return rent due records for one lease.
-    public List<RentDueResponse> getByLease(Long leaseId) {
-        // Create a list for this lease's rent due responses.
-        List<RentDueResponse> responses = new ArrayList<>();
-        // Find rent due records for the lease in due date order.
-        for (RentDue due : rentDueRepository.findByLeaseIdOrderByDueDateAsc(leaseId)) {
-            // Convert each lease rent due record into a response.
-            responses.add(toResponse(due));
-        }
-        // Return the lease rent due responses.
-        return responses;
-    }
-
-    // Convert a rent due entity into a response object.
-    public RentDueResponse toResponse(RentDue due) {
-        // Create the response object.
-        RentDueResponse response = new RentDueResponse();
-        // Copy the rent due ID into the response.
-        response.setId(due.getId());
-        // Copy the lease ID into the response.
-        response.setLeaseId(due.getLeaseId());
-        // Copy the due date into the response.
-        response.setDueDate(due.getDueDate());
-        // Copy the full rent amount into the response.
-        response.setAmount(due.getAmount());
-        // Copy the paid amount into the response.
-        response.setPaidAmount(due.getPaidAmount());
-        // Copy the remaining balance into the response.
-        response.setOutstandingAmount(due.getOutstandingAmount());
-        // Set status text based on whether the rent is fully paid.
-        response.setStatus(due.isPaid() ? "PAID" : "UNPAID");
-        // Return the completed rent due response.
-        return response;
-    }
+ private final FinanceService finance; private final LeaseService leases; private final Access access;
+ private final PersistenceSupport db; private final DueRepository dues; private final Clock clock;
+ public RentScheduleService(FinanceService finance, LeaseService leases, Access access, PersistenceSupport db, DueRepository dues, Clock clock) {
+ this.finance=finance; this.leases=leases; this.access=access; this.db=db; this.dues=dues; this.clock=clock;
+ }
+ public RentDueResponse createRentDue(Long leaseId, LocalDate date, BigDecimal amount) {
+ access.lease(leaseId,true); Lease l=db.lock(Lease.class,leaseId);
+ if(date==null || amount==null || amount.signum()<=0 || amount.scale()>3) throw ApiException.invalid("INVALID_INPUT");
+ // Schedules are created atomically with the lease. A retry may only retrieve an identical entry.
+ Due d=dues.findByLeaseInAllocationOrder(leaseId).stream().filter(x->x.dueDate.equals(date)).findFirst().orElseThrow(()->ApiException.conflict("USE_LEASE_SCHEDULE"));
+ if(d.amount.compareTo(amount)!=0) throw ApiException.conflict("SCHEDULE_CONFLICT");
+ return response(finance.view(d,LocalDate.now(clock)));
+ }
+ public List<RentDueResponse> getAll() { return leases.leases(null).stream().flatMap(l->getByLease(l.id).stream()).toList(); }
+ public List<RentDueResponse> getByLease(Long id) { return finance.dues(id,LocalDate.now(clock)).stream().map(this::response).toList(); }
+ private RentDueResponse response(DueBalanceResponse d) { var r=new RentDueResponse();r.setId(d.id());r.setLeaseId(d.leaseId());r.setDueDate(d.dueDate());r.setAmount(d.cancelled()?BigDecimal.ZERO.setScale(3):d.amount());r.setPaidAmount(d.paid());r.setOutstandingAmount(d.outstanding());r.setStatus(d.cancelled()?"CANCELLED":d.outstanding().signum()==0?"PAID":"UNPAID");return r; }
 }

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.*;
 
-// Receive the information required to create an expense.
 /** Editable input only. Ownership and ledger state are assigned by the service. */
 public record ExpenseRequest(
     @NotNull @Positive Long buildingId,

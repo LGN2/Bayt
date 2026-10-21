@@ -1,181 +1,77 @@
 package com.codevictims.bayt.tenancy.controller;
 
-import com.codevictims.bayt.tenancy.entity.Lease;
-import com.codevictims.bayt.tenancy.mapper.LeaseMapper;
+import com.codevictims.bayt.common.dto.PageSlice;
+import com.codevictims.bayt.common.mapper.RequestMapper;
+import com.codevictims.bayt.security.service.Access;
 import com.codevictims.bayt.tenancy.dto.request.LeaseRequest;
+import com.codevictims.bayt.tenancy.dto.request.MunicipalityRequest;
+import com.codevictims.bayt.tenancy.dto.request.TerminateLeaseRequest;
 import com.codevictims.bayt.tenancy.dto.response.LeaseResponse;
+import com.codevictims.bayt.tenancy.mapper.LeaseMapper;
 import com.codevictims.bayt.tenancy.service.LeaseService;
-import jakarta.validation.Valid;
+import java.util.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/tenancy/leases")
+@RequestMapping("/api")
 public class LeaseController {
+  private final LeaseService s;
+  private final Access access;
 
-    private final LeaseService service;
+  public LeaseController(LeaseService s, Access access) {
+    this.s = s;
+    this.access = access;
+  }
 
-    public LeaseController(LeaseService service) {
-        this.service = service;
-    }
+  @GetMapping("/leases")
+  public PageSlice<LeaseResponse> leases(
+      @RequestParam(required = false) Long buildingId,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size,
+      @RequestParam(defaultValue = "") String q) {
+    return PageSlice.of(
+            s.leases(buildingId),
+            page,
+            size,
+            q,
+            l ->
+                l.id
+                    + " "
+                    + l.unitId
+                    + " "
+                    + l.tenantId
+                    + " "
+                    + l.status
+                    + " "
+                    + l.municipalityStatus)
+        .map(LeaseMapper::toResponse);
+  }
 
-    @GetMapping
-    public List<LeaseResponse> list() {
-        return service.getAll()
-                .stream()
-                .map(LeaseMapper::toResponse)
-                .toList();
-    }
+  @GetMapping("/leases/{id}")
+  public LeaseResponse lease(@PathVariable Long id) {
+    return LeaseMapper.toResponse(access.lease(id, false));
+  }
 
-    @GetMapping("/{id}")
-    public LeaseResponse get(@PathVariable Long id) {
-        return LeaseMapper.toResponse(
-                service.getById(id)
-        );
-    }
+  @PostMapping("/leases")
+  public LeaseResponse lease(@jakarta.validation.Valid @RequestBody LeaseRequest b) {
+    return LeaseMapper.toResponse(s.lease(RequestMapper.toInput(b), null));
+  }
 
-    @PostMapping
-    public LeaseResponse create(
-            @Valid @RequestBody LeaseRequest request) {
+  @PostMapping("/leases/{id}/renew")
+  public LeaseResponse renew(
+      @PathVariable Long id, @jakarta.validation.Valid @RequestBody LeaseRequest b) {
+    return LeaseMapper.toResponse(s.lease(RequestMapper.toInput(b), id));
+  }
 
-        Lease lease = new Lease();
+  @PostMapping("/leases/{id}/terminate")
+  public LeaseResponse terminate(
+      @PathVariable Long id, @jakarta.validation.Valid @RequestBody TerminateLeaseRequest b) {
+    return LeaseMapper.toResponse(s.terminate(id, RequestMapper.toInput(b)));
+  }
 
-        lease.setBuildingId(request.buildingId());
-        lease.setUnitId(request.unitId());
-        lease.setTenantId(request.tenantId());
-
-        lease.setStartDate(request.startDate());
-        lease.setEndDate(
-                request.startDate()
-                        .plusMonths(request.months())
-                        .minusDays(1)
-        );
-
-        lease.setRent(request.rent());
-        lease.setDeposit(
-                request.deposit() != null
-                        ? request.deposit()
-                        : java.math.BigDecimal.ZERO
-        );
-
-        lease.setStatus("ACTIVE");
-
-        lease.setTaxTreatment(request.taxTreatment());
-        lease.setTaxRate(request.taxRate());
-        lease.setSupplyClassification(
-                request.supplyClassification()
-        );
-
-        lease.setOwnerTaxRegistered(
-                Boolean.TRUE.equals(request.ownerTaxRegistered())
-        );
-
-        lease.setMunicipalityStatus(
-                request.municipalityStatus() != null
-                        ? request.municipalityStatus()
-                        : "UNREGISTERED"
-        );
-
-        lease.setMunicipalityAuthority(
-                request.municipalityAuthority() != null
-                        ? request.municipalityAuthority()
-                        : ""
-        );
-
-        lease.setMunicipalityReference(
-                request.municipalityReference() != null
-                        ? request.municipalityReference()
-                        : ""
-        );
-
-        lease.setMunicipalityFee(
-                request.municipalityFee() != null
-                        ? request.municipalityFee()
-                        : java.math.BigDecimal.ZERO
-        );
-
-        lease.setPreviousLeaseId(
-                request.previousLeaseId()
-        );
-
-        return LeaseMapper.toResponse(
-                service.create(lease)
-        );
-    }
-
-    @PutMapping("/{id}")
-    public LeaseResponse update(
-            @PathVariable Long id,
-            @Valid @RequestBody LeaseRequest request) {
-
-        Lease lease = new Lease();
-
-        lease.setBuildingId(request.buildingId());
-        lease.setUnitId(request.unitId());
-        lease.setTenantId(request.tenantId());
-
-        lease.setStartDate(request.startDate());
-        lease.setEndDate(
-                request.startDate()
-                        .plusMonths(request.months())
-                        .minusDays(1)
-        );
-
-        lease.setRent(request.rent());
-        lease.setDeposit(
-                request.deposit() != null
-                        ? request.deposit()
-                        : java.math.BigDecimal.ZERO
-        );
-
-        lease.setStatus("ACTIVE");
-
-        lease.setTaxTreatment(request.taxTreatment());
-        lease.setTaxRate(request.taxRate());
-        lease.setSupplyClassification(
-                request.supplyClassification()
-        );
-
-        lease.setOwnerTaxRegistered(
-                Boolean.TRUE.equals(request.ownerTaxRegistered())
-        );
-
-        lease.setMunicipalityStatus(
-                request.municipalityStatus() != null
-                        ? request.municipalityStatus()
-                        : "UNREGISTERED"
-        );
-
-        lease.setMunicipalityAuthority(
-                request.municipalityAuthority() != null
-                        ? request.municipalityAuthority()
-                        : ""
-        );
-
-        lease.setMunicipalityReference(
-                request.municipalityReference() != null
-                        ? request.municipalityReference()
-                        : ""
-        );
-
-        lease.setMunicipalityFee(
-                request.municipalityFee() != null
-                        ? request.municipalityFee()
-                        : java.math.BigDecimal.ZERO
-        );
-
-        lease.setPreviousLeaseId(
-                request.previousLeaseId()
-        );
-
-        return LeaseMapper.toResponse(
-                service.update(id, lease)
-        );
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
-    }
+  @PutMapping("/leases/{id}/municipality")
+  public LeaseResponse municipality(
+      @PathVariable Long id, @jakarta.validation.Valid @RequestBody MunicipalityRequest b) {
+    return LeaseMapper.toResponse(s.municipality(id, RequestMapper.toInput(b)));
+  }
 }

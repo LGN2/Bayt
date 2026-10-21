@@ -13,7 +13,7 @@ import com.codevictims.bayt.maintenance.service.MaintenanceService;
 import com.codevictims.bayt.property.entity.Building;
 import com.codevictims.bayt.property.service.PropertyService;
 import com.codevictims.bayt.security.service.Access;
-import com.codevictims.bayt.tenancy.service.TenancyService;
+import com.codevictims.bayt.tenancy.service.LeaseService;
 import java.math.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ReportService {
     private final AllocationRepository allocationRepository;
-    private final TenancyService tenancyService;
+    private final LeaseService tenancyService;
     private final PersistenceSupport db;
     private final Access access;
     private final PropertyService properties;
@@ -37,7 +37,7 @@ public class ReportService {
             PropertyService properties,
             FinanceService finance,
             MaintenanceService maintenance,
-            TenancyService tenancyService,
+            LeaseService tenancyService,
             AllocationRepository allocationRepository) {
         this.allocationRepository = allocationRepository;
         this.tenancyService = tenancyService;

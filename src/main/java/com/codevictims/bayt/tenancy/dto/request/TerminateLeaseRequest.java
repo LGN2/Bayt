@@ -1,14 +1,14 @@
 package com.codevictims.bayt.tenancy.dto.request;
 
-import jakarta.validation.constraints.NotNull;
+import com.codevictims.bayt.common.dto.RequestDto;
+import jakarta.validation.constraints.*;
+import java.time.*;
 
-import java.time.LocalDate;
-
+/** Editable input only. Ownership and ledger state are assigned by the service. */
 public record TerminateLeaseRequest(
-
-        @NotNull
+    @NotNull
+        @org.springframework.format.annotation.DateTimeFormat(
+            iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
         LocalDate terminatedOn,
-
-        String reason
-) {
-}
+    @NotBlank @Size(max = 255) String reason)
+    implements RequestDto {}

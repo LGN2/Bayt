@@ -3,7 +3,6 @@ package com.codevictims.bayt.billing.mapper;
 import com.codevictims.bayt.billing.dto.response.ChequeResponse;
 import com.codevictims.bayt.billing.entity.Cheque;
 
-// Convert cheque entities for API responses.
 public final class ChequeMapper {
   private ChequeMapper() {}
 
