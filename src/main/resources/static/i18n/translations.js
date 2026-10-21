@@ -1,4 +1,11 @@
 const copy = {
+  aiSetupRequired: ["الذكاء الاصطناعي غير متاح حتى إعداد الخدمة", "AI unavailable until the provider is configured"],
+  rejectSummary: ["رفض الاقتراح", "Reject suggestion"],
+  APPROVED: ["معتمد", "Approved"],
+  MANUAL_APPROVED: ["ملخص يدوي معتمد", "Manual summary approved"],
+  REJECTED: ["مرفوض", "Rejected"],
+  BUSY: ["الخدمة مشغولة، حاول لاحقاً", "Service busy; try later"],
+  RATE_LIMITED: ["تم بلوغ حد الطلبات، حاول لاحقاً", "Request limit reached; try later"],
   brand: ["بيت", "Bayt"],
   tagline: ["إدارة العقارات، ببساطة", "PROPERTY MANAGEMENT"],
   dashboard: ["نظرة عامة", "Overview"],

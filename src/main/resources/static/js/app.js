@@ -488,10 +488,11 @@ async function jobPage(id) {
   currentRecord = await api("/maintenance/" + id);
   const m = currentRecord;
   const events = await api("/history/MAINTENANCE/" + id);
+  const aiAvailable = staff() && (await api("/integrations")).find(x => x.key === "ai")?.available;
   await options("units");
   return (
     heading("maintenance", "", link("back", "#maintenance")) +
-    `<div class="card"><div class="card-head"><h2>#${m.id} · ${esc(refLabel("unitId", m.unitId))}</h2>${badge(m.status)}</div><h3>${t("originalDescription")}</h3><p class="description">${esc(m.description)}</p><div class="toolbar-group">${badge(m.category)}${m.urgent ? `<span class="badge danger">${t("urgent")}</span>` : ""}</div><div class="toolbar-group filters">${staff() || me.role === "VENDOR" ? btn("transition", "maintenance-status") : ""}${btn("addComment", "comment")}${staff() ? btn("aiSuggest", "ai") + btn("approveSummary", "approve-summary") : ""}</div>${staff() ? `<div class="notice-box">${t("aiPrivacy")}</div><small>${t("aiStatus")}: ${t(m.aiStatus)}</small>` : ""}${m.proposedSummary ? `<div class="info-box"><strong>${t("proposedSummary")}</strong><p>${esc(m.proposedSummary)} · ${t(m.proposedCategory)}</p></div>` : ""}${m.approvedSummary ? `<h3>${t("summary")}</h3><p>${esc(m.approvedSummary)}</p>` : ""}<p class="muted">${t("manualFallback")}</p></div><div class="card"><h2>${t("history")}</h2>${table(["createdAt", "action", "note"].map(column), events)}</div>`
+    `<div class="card"><div class="card-head"><h2>#${m.id} · ${esc(refLabel("unitId", m.unitId))}</h2>${badge(m.status)}</div><h3>${t("originalDescription")}</h3><p class="description">${esc(m.description)}</p><div class="toolbar-group">${badge(m.category)}${m.urgent ? `<span class="badge danger">${t("urgent")}</span>` : ""}</div><div class="toolbar-group filters">${staff() || me.role === "VENDOR" ? btn("transition", "maintenance-status") : ""}${btn("addComment", "comment")}${staff() ? (aiAvailable ? btn("aiSuggest", "ai") : `<span class="info-box">${t("aiSetupRequired")}</span>`) + btn("approveSummary", "approve-summary") + (m.aiStatus === "PROPOSED" ? btn("rejectSummary", "reject-summary", "", "danger") : "") : ""}</div>${staff() ? `<div class="notice-box">${t("aiPrivacy")}</div><small>${t("aiStatus")}: ${t(m.aiStatus)}</small>` : ""}${m.proposedSummary ? `<div class="info-box"><strong>${t("proposedSummary")}</strong><p>${esc(m.proposedSummary)} · ${t(m.proposedCategory)}</p></div>` : ""}${m.approvedSummary ? `<h3>${t("summary")}</h3><p>${esc(m.approvedSummary)}</p>` : ""}<p class="muted">${t("manualFallback")}</p></div><div class="card"><h2>${t("history")}</h2>${table(["createdAt", "action", "note"].map(column), events)}</div>`
   );
 }
 async function dashboard(key) {
@@ -902,6 +903,12 @@ async function handleAction(action, el) {
           method: "POST",
           body: { language: lang() },
         });
+        await render();
+      });
+      break;
+    case "reject-summary":
+      confirmAction(async () => {
+        await api(`/maintenance/${id}/reject-summary`, { method: "POST" });
         await render();
       });
       break;

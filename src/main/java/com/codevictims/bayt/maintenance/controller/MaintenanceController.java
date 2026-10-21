@@ -21,11 +21,13 @@ public class MaintenanceController {
     private final MaintenanceService s;
     private final Access access;
     private final AiAssistant ai;
+    private final com.codevictims.bayt.maintenance.service.AiRequestLimiter limiter;
 
-    public MaintenanceController(MaintenanceService s, Access access, AiAssistant ai) {
+    public MaintenanceController(MaintenanceService s, Access access, AiAssistant ai, com.codevictims.bayt.maintenance.service.AiRequestLimiter limiter) {
         this.s = s;
         this.access = access;
         this.ai = ai;
+        this.limiter = limiter;
     }
 
     @GetMapping
@@ -74,11 +76,18 @@ public class MaintenanceController {
         return MaintenanceMapper.toResponse(s.approve(id, RequestMapper.toInput(b)));
     }
 
+    @PostMapping("/{id}/reject-summary")
+    public MaintenanceResponse reject(@PathVariable Long id) {
+        return MaintenanceMapper.toResponse(s.reject(id));
+    }
+
     @PostMapping("/{id}/ai-suggestion")
     public MaintenanceResponse suggest(
             @PathVariable Long id, @jakarta.validation.Valid @RequestBody AiSuggestionRequest b) {
         var m = access.maintenance(id);
         access.manage(m.buildingId);
+        if (!limiter.allow(access.user().id))
+            return MaintenanceMapper.toResponse(s.aiResult(id,new AiAssistant.Result("RATE_LIMITED",null)));
         String language = RequestMapper.toInput(b).choice("language", "ar", "en");
         // The request is already committed; provider I/O never shares its creation transaction.
         return MaintenanceMapper.toResponse(s.aiResult(id, ai.suggest(m.description, language)));
