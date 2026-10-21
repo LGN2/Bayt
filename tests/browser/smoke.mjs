@@ -70,6 +70,11 @@ try {
     "tax-policies",
   ])
     await navigate(route);
+  await navigate("maintenance");
+  await page.locator('a[href^="#job/"]').first().click();
+  await page.getByText("الذكاء الاصطناعي غير متاح حتى إعداد الخدمة", {exact:true}).waitFor();
+  assert.equal(await page.locator('[data-action="ai"]').count(),0);
+  await page.screenshot({path:"artifacts/maintenance-ai-disabled.png",fullPage:true});
   await navigate("leases");
   await page.locator('a[href^="#lease/"]').first().click();
   await page.locator("[data-action=payment]").waitFor();

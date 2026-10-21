@@ -27,7 +27,7 @@ public class IntegrationRegistry {
                 new State(
                         "ai",
                         ai.available(),
-                        "Server-side AI_API_KEY and AI_MODEL; provider access and reviewed data handling."));
+                        "Server-side AI_ENABLED=true, AI_API_KEY and AI_MODEL; provider access and reviewed data handling."));
         for (String key :
                 List.of(
                         "gateway",

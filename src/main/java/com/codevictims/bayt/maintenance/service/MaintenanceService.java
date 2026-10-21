@@ -162,9 +162,21 @@ public class MaintenanceService {
   public Maintenance approve(Long id, Input in) {
     Maintenance m = access.maintenance(id);
     access.manage(m.buildingId);
+    m = db.lock(Maintenance.class,id);
+    m.aiStatus = "PROPOSED".equals(m.aiStatus) ? "APPROVED" : "MANUAL_APPROVED";
     m.approvedSummary = in.text("summary", 255);
     m.category = in.choice("category", CATEGORIES);
     audit.add(m.buildingId, "MAINTENANCE", id, "SUMMARY_APPROVED", m.category);
+    return m;
+  }
+
+  public Maintenance reject(Long id) {
+    Maintenance initial=access.maintenance(id);
+    access.manage(initial.buildingId);
+    Maintenance m=db.lock(Maintenance.class,id);
+    if (!"PROPOSED".equals(m.aiStatus)) throw ApiException.conflict("NO_PENDING_SUGGESTION");
+    m.aiStatus="REJECTED"; m.proposedSummary=""; m.proposedCategory="";
+    audit.add(m.buildingId,"MAINTENANCE",id,"AI_REJECTED","");
     return m;
   }
 
@@ -176,6 +188,8 @@ public class MaintenanceService {
   public Maintenance aiResult(Long id, AiAssistant.Result result) {
     Maintenance m = access.maintenance(id);
     access.manage(m.buildingId);
+    m = db.lock(Maintenance.class,id);
+    m.proposedSummary=""; m.proposedCategory="";
     m.aiStatus = result.status();
     if (result.suggestion() != null) {
       m.proposedSummary = result.suggestion().summary();

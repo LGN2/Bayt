@@ -23,3 +23,12 @@ Pull requests target master and must be merged manually in that order. No automa
 
 Validation is tracked in GitHub Actions. Do not assume unconfigured external providers work;
 AI is unavailable without its provider branch and a server-side key.
+
+## Optional maintenance AI
+
+See [AI setup and limits](docs/AI.md). Set AI_ENABLED=true, AI_API_KEY and AI_MODEL on the server;
+never place a key in browser code. The default is disabled.
+
+Uploads in normal operation require a configured UPLOAD_SCAN_COMMAND on the application host.
+The dev profile allows unscanned files only for disposable local testing. The standard container does
+not include a malware scanner; install/mount one before enabling production uploads.
