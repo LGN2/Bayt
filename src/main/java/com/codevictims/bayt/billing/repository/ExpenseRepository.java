@@ -3,9 +3,7 @@ package com.codevictims.bayt.billing.repository;
 import com.codevictims.bayt.billing.entity.Expense;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-// Access expense records from the database.
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-
   @org.springframework.data.jpa.repository.Query(
       "select e from Expense e where e.buildingId in :ids order by e.expenseDate desc")
   java.util.List<Expense> findInBuildingsNewestFirst(

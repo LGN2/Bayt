@@ -2,11 +2,11 @@
 package com.codevictims.bayt.billing.controller;
 
 // Import arrears records returned to API clients.
-import com.property.billing.response.ArrearsResponse;
+import com.codevictims.bayt.billing.response.ArrearsResponse;
 // Import the financial summary returned by the API.
-import com.property.billing.response.FinancialSummaryResponse;
+import com.codevictims.bayt.billing.response.FinancialSummaryResponse;
 // Import the service that handles arrears work.
-import com.property.billing.service.ArrearsService;
+import com.codevictims.bayt.billing.service.ArrearsService;
 // Import Spring MVC annotations for REST endpoints.
 import org.springframework.web.bind.annotation.*;
 

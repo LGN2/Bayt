@@ -1,79 +1,64 @@
 package com.codevictims.bayt.tenancy.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import com.codevictims.bayt.common.entity.BaseEntity;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.time.*;
 
 @Entity
 @Table(name = "lease")
-@Getter
-@Setter
-@NoArgsConstructor
-public class Lease {
+public class Lease extends BaseEntity {
+  @Column(nullable = false)
+  public Long buildingId;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Column(nullable = false)
+  public Long unitId;
 
-    @Column(nullable = false)
-    private Long buildingId;
+  @Column(nullable = false)
+  public Long tenantId;
 
-    @Column(nullable = false)
-    private Long unitId;
+  @Column(nullable = false)
+  public LocalDate startDate;
 
-    @Column(nullable = false)
-    private Long tenantId;
+  @Column(nullable = false)
+  public LocalDate endDate;
 
-    @Column(nullable = false)
-    private LocalDate startDate;
+  @Column(nullable = false, precision = 15, scale = 3)
+  public BigDecimal rent = BigDecimal.ZERO;
 
-    @Column(nullable = false)
-    private LocalDate endDate;
+  @Column(nullable = false, precision = 15, scale = 3)
+  public BigDecimal deposit = BigDecimal.ZERO;
 
-    @Column(nullable = false, precision = 15, scale = 3)
-    private BigDecimal rent = BigDecimal.ZERO;
+  @Column(nullable = false, length = 40)
+  public String status = "";
 
-    @Column(nullable = false, precision = 15, scale = 3)
-    private BigDecimal deposit = BigDecimal.ZERO;
+  @Column(nullable = false, length = 40)
+  public String taxTreatment = "";
 
-    @Column(nullable = false, length = 40)
-    private String status = "";
+  @Column(nullable = false, precision = 7, scale = 4)
+  public BigDecimal taxRate = BigDecimal.ZERO;
 
-    @Column(nullable = false, length = 40)
-    private String taxTreatment = "";
+  @Column(nullable = false)
+  public String supplyClassification = "";
 
-    @Column(nullable = false, precision = 7, scale = 4)
-    private BigDecimal taxRate = BigDecimal.ZERO;
+  @Column(nullable = false)
+  public boolean ownerTaxRegistered;
 
-    @Column(nullable = false)
-    private String supplyClassification = "";
+  @Column(nullable = false, length = 40)
+  public String municipalityStatus = "";
 
-    @Column(nullable = false)
-    private boolean ownerTaxRegistered;
+  @Column(nullable = false)
+  public String municipalityAuthority = "";
 
-    @Column(nullable = false, length = 40)
-    private String municipalityStatus = "";
+  @Column(nullable = false)
+  public String municipalityReference = "";
 
-    @Column(nullable = false)
-    private String municipalityAuthority = "";
+  @Column(nullable = false, precision = 15, scale = 3)
+  public BigDecimal municipalityFee = BigDecimal.ZERO;
 
-    @Column(nullable = false)
-    private String municipalityReference = "";
+  @Column(nullable = true)
+  public Long previousLeaseId;
 
-    @Column(nullable = false, precision = 15, scale = 3)
-    private BigDecimal municipalityFee = BigDecimal.ZERO;
-
-    private Long previousLeaseId;
-
-    private LocalDate terminatedOn;
+  @Column(nullable = true)
+  public LocalDate terminatedOn;
 }

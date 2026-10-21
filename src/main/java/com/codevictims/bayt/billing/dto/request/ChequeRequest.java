@@ -5,7 +5,6 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.*;
 
-// Receive information required to create a cheque.
 /** Editable input only. Ownership and ledger state are assigned by the service. */
 public record ChequeRequest(
     @NotBlank @Size(max = 255) String chequeNumber,

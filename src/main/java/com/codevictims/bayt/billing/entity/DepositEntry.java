@@ -8,7 +8,6 @@ import java.time.*;
 @Entity
 @Table(name = "deposit_entry")
 public class DepositEntry extends BaseEntity {
-  // Store a deposit transaction for a lease.
   @Column(nullable = false)
   public Long leaseId;
 

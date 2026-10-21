@@ -1,79 +1,120 @@
-name: CI
-
+name: Verify application
 on:
   push:
-    branches: ["master"]
+    branches: [master, fixing, database, frontend, spring-ai]
   pull_request:
-    branches: ["master"]
-  workflow_dispatch:
-
 permissions:
   contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  build-and-test:
-    name: Build and Test
+  verify:
+    strategy:
+      matrix:
+        java: ["17", "21"]
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     services:
       mysql:
-        image: mysql:8.4
+        image: mysql:8.4.6
         env:
-          MYSQL_ROOT_PASSWORD: root_ci_password
-          MYSQL_DATABASE: property_management_test
-          MYSQL_USER: ci_user
-          MYSQL_PASSWORD: ci_password
-        ports:
-          - 3306:3306
+          MYSQL_DATABASE: Bayt_v2_test
+          MYSQL_USER: bayt
+          MYSQL_PASSWORD: test-only-password
+          MYSQL_ROOT_PASSWORD: test-only-root
+        ports: ["3306:3306"]
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
+          --health-cmd="mysqladmin ping -h localhost -ptest-only-root"
+          --health-interval=5s --health-timeout=5s --health-retries=30
     env:
-      SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/property_management_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: ci_user
-      SPRING_DATASOURCE_PASSWORD: ci_password
-      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
-
+      TEST_DB_URL: jdbc:mysql://localhost:3306/Bayt_v2_test?connectionTimeZone=UTC
+      TEST_DB_USER: bayt
+      TEST_DB_PASSWORD: test-only-password
+      COOKIE_SECURE: false
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Java 21
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: ${{ matrix.java }}
           cache: maven
-
-      - name: Make Maven wrapper executable
-        run: chmod +x mvnw
-
-      - name: Build and run tests
-        run: ./mvnw --batch-mode --no-transfer-progress clean verify
-
-      - name: Upload test reports
+      - run: chmod +x mvnw && ./mvnw -B verify
+      - name: Verify application restart preserves migrated data
+        env:
+          DB_URL: jdbc:mysql://localhost:3306/Bayt_v2_test?connectionTimeZone=UTC
+          DB_USER: bayt
+          DB_PASSWORD: test-only-password
+          MYSQL_PWD: test-only-password
+        run: |
+          before=$(mysql -h 127.0.0.1 -u bayt -N -e "SELECT COUNT(*) FROM Bayt_v2_test.user_account")
+          test "$before" -gt 0
+          for cycle in 1 2; do
+            java -jar target/Bayt-1.0.0-SNAPSHOT.jar > "startup-$cycle.log" 2>&1 &
+            app_pid=$!
+            trap 'kill "$app_pid" 2>/dev/null || true' EXIT
+            ready=false
+            for attempt in $(seq 1 60); do
+              if curl -fsS http://localhost:8080/api/health; then ready=true; break; fi
+              sleep 2
+            done
+            test "$ready" = true || { cat "startup-$cycle.log"; exit 1; }
+            after=$(mysql -h 127.0.0.1 -u bayt -N -e "SELECT COUNT(*) FROM Bayt_v2_test.user_account")
+            test "$before" = "$after"
+            kill "$app_pid"
+            wait "$app_pid" || true
+            trap - EXIT
+          done
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: test-reports
+          name: test-results-java-${{ matrix.java }}
           path: |
             target/surefire-reports/
             target/failsafe-reports/
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: Upload application JAR
-        uses: actions/upload-artifact@v4
+  browser:
+    runs-on: ubuntu-latest
+    needs: verify
+    services:
+      mysql:
+        image: mysql:8.4.6
+        env:
+          MYSQL_DATABASE: Bayt_v2
+          MYSQL_USER: bayt
+          MYSQL_PASSWORD: test-only-password
+          MYSQL_ROOT_PASSWORD: test-only-root
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -ptest-only-root"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    env:
+      DB_URL: jdbc:mysql://localhost:3306/Bayt_v2?connectionTimeZone=UTC
+      DB_USER: bayt
+      DB_PASSWORD: test-only-password
+      SPRING_PROFILES_ACTIVE: dev
+      COOKIE_SECURE: false
+      DEMO_PASSWORD: CI-only-demo-password-2026
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
-          name: application-jar
-          path: target/*.jar
-          if-no-files-found: error
-          retention-days: 7
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: sh mvnw -B -DskipTests package
+      - run: |
+          java -jar target/Bayt-1.0.0-SNAPSHOT.jar > app.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl --silent --fail http://localhost:8080/api/health > /dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat app.log
+          exit 1
+      - run: npm ci --prefix tests/browser && npx --prefix tests/browser playwright install --with-deps chromium
+      - run: npm test --prefix tests/browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: |
+            tests/browser/artifacts/
+            app.log

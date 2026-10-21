@@ -4,7 +4,6 @@ import com.codevictims.bayt.common.dto.RequestDto;
 import jakarta.validation.constraints.*;
 import java.time.*;
 
-// Receive data used to change the cheque status.
 /** Editable input only. Ownership and ledger state are assigned by the service. */
 public record ChequeStatusRequest(
     @NotBlank @Size(max = 255) String status,

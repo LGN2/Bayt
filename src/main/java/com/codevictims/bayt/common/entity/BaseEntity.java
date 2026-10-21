@@ -6,6 +6,7 @@ import java.time.Instant;
 
 @MappedSuperclass
 public abstract class BaseEntity {
+    public Long getId() { return id; }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;

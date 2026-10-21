@@ -3,7 +3,6 @@ package com.codevictims.bayt.billing.dto.response;
 import java.math.BigDecimal;
 import java.time.*;
 
-// Return cheque information to the API client.
 public record ChequeResponse(
     Long id,
     long version,

@@ -3,7 +3,6 @@ package com.codevictims.bayt.billing.dto.response;
 import java.math.BigDecimal;
 import java.time.*;
 
-// Return a single deposit entry to the API client.
 public record DepositEntryResponse(
     Long id,
     long version,

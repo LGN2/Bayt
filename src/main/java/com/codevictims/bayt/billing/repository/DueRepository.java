@@ -4,14 +4,11 @@ import com.codevictims.bayt.billing.entity.Due;
 import java.time.LocalDate;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-// Access due records from the database.
 public interface DueRepository extends JpaRepository<Due, Long> {
-
   @org.springframework.data.jpa.repository.Query(
       "select d from Due d where d.leaseId=:id order by d.dueDate,d.id")
   java.util.List<Due> findByLeaseInAllocationOrder(
       @org.springframework.data.repository.query.Param("id") Long id);
-
 
   @org.springframework.data.jpa.repository.Query(
       "select d from Due d where d.leaseId=:l and d.dueDate>:date")

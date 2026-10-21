@@ -1,17 +1,17 @@
 package com.codevictims.bayt.billing.repository;
 
+import com.codevictims.bayt.billing.entity.TaxPolicy;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface TaxPolicyRepository {
-}
-package com.codevictims.propertymanagement.billing.repository;
-
-import com.codevictims.propertymanagement.billing.entity.TaxPolicy;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Collection;
+import java.util.List;
 
 public interface TaxPolicyRepository extends JpaRepository<TaxPolicy, Long> {
-    @org.springframework.data.jpa.repository.Query(
-            "select p from TaxPolicy p where p.buildingId in :ids order by p.effectiveFrom")
-    java.util.List<TaxPolicy> findInBuildingsByEffectiveDate(
-            @org.springframework.data.repository.query.Param("ids") java.util.Collection<Long> ids);
+
+    @Query("select p from TaxPolicy p where p.buildingId in :ids order by p.effectiveFrom")
+    List<TaxPolicy> findInBuildingsByEffectiveDate(
+            @Param("ids") Collection<Long> ids
+    );
 }
