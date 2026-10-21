@@ -1,9 +1,8 @@
 package com.codevictims.bayt.billing.mapper;
 
-import com.codevictims.bayt.billing.dto.response.response.ExpenseResponse;
+import com.codevictims.bayt.billing.dto.response.ExpenseResponse;
 import com.codevictims.bayt.billing.entity.Expense;
 
-// Convert expense entities into API responses.
 public final class ExpenseMapper {
   private ExpenseMapper() {}
 

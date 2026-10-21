@@ -3,7 +3,6 @@ package com.codevictims.bayt.billing.dto.response;
 import java.math.BigDecimal;
 import java.time.*;
 
-// Return expense information to the API client.
 public record ExpenseResponse(
     Long id,
     long version,

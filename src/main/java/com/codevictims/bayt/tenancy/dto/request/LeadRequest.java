@@ -1,37 +1,21 @@
 package com.codevictims.bayt.tenancy.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.codevictims.bayt.common.dto.RequestDto;
+import jakarta.validation.constraints.*;
+import java.time.*;
 
-import java.time.Instant;
-import java.time.LocalDate;
-
+/** Editable input only. Ownership and ledger state are assigned by the service. */
 public record LeadRequest(
-
-        @NotNull
-        Long buildingId,
-
-        @NotNull
-        Long unitId,
-
-        @NotBlank
-        @Size(max = 255)
-        String name,
-
-        @NotBlank
-        @Size(max = 80)
-        String phone,
-
-        @NotBlank
-        @Size(max = 40)
-        String status,
-
+    @NotNull @Positive Long buildingId,
+    @NotNull @Positive Long unitId,
+    @NotBlank @Size(max = 255) String name,
+    @NotBlank @Size(max = 255) String phone,
+    @NotBlank @Size(max = 255) String status,
+    @org.springframework.format.annotation.DateTimeFormat(
+            iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
         Instant viewingAt,
-
+    @org.springframework.format.annotation.DateTimeFormat(
+            iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
         LocalDate followUpDate,
-
-        @NotBlank
-        String notes
-) {
-}
+    @Size(max = 2000) String notes)
+    implements RequestDto {}

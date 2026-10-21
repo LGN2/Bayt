@@ -5,7 +5,6 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.*;
 
-// Receive payment data from the API request.
 /** Editable input only. Ownership and ledger state are assigned by the service. */
 public record PaymentRequest(
     @NotNull BigDecimal amount,

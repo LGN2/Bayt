@@ -1,17 +1,16 @@
 package com.codevictims.bayt.tenancy.dto.response;
 
-import java.time.Instant;
-import java.time.LocalDate;
+import java.time.*;
 
 public record LeadResponse(
-        Long id,
-        Long buildingId,
-        Long unitId,
-        String name,
-        String phone,
-        String status,
-        Instant viewingAt,
-        LocalDate followUpDate,
-        String notes
-) {
-}
+    Long id,
+    long version,
+    Instant createdAt,
+    Long buildingId,
+    Long unitId,
+    String name,
+    String phone,
+    String status,
+    Instant viewingAt,
+    LocalDate followUpDate,
+    String notes) {}

@@ -1,9 +1,8 @@
 package com.codevictims.bayt.billing.mapper;
 
-import com.codevictims.bayt.billing.dto.response.response.DueResponse;
+import com.codevictims.bayt.billing.dto.response.DueResponse;
 import com.codevictims.bayt.billing.entity.Due;
 
-// Convert due entities into API responses.
 public final class DueMapper {
   private DueMapper() {}
 

@@ -1,12 +1,11 @@
 package com.codevictims.bayt.billing.mapper;
 
-import com.codevictims.bayt.billing.dto.response.response.PaymentResponse;
+import com.codevictims.bayt.billing.dto.response.PaymentResponse;
 import com.codevictims.bayt.billing.entity.Payment;
 
 public final class PaymentMapper {
   private PaymentMapper() {}
 
-  // Convert the payment entity to a response.
   public static PaymentResponse toResponse(Payment entity) {
     if (entity == null) return null;
     return new PaymentResponse(

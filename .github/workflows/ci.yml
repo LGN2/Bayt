@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "fixing", "database", "frontend", "spring-ai"]
   pull_request:
     branches: ["master"]
   workflow_dispatch:
@@ -40,7 +40,6 @@ jobs:
       SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/property_management_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ci_user
       SPRING_DATASOURCE_PASSWORD: ci_password
-      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
 
     steps:
       - name: Checkout repository

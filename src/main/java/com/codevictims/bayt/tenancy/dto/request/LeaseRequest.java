@@ -1,60 +1,20 @@
 package com.codevictims.bayt.tenancy.dto.request;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
-
+import com.codevictims.bayt.common.dto.RequestDto;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.*;
 
+/** Editable input only. Ownership and ledger state are assigned by the service. */
 public record LeaseRequest(
-
-        @NotNull
-        Long buildingId,
-
-        @NotNull
-        Long unitId,
-
-        @NotNull
-        Long tenantId,
-
-        @NotNull
+    @NotNull @Positive Long unitId,
+    @NotNull @Positive Long tenantId,
+    @NotNull
+        @org.springframework.format.annotation.DateTimeFormat(
+            iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
         LocalDate startDate,
-
-        @NotNull
-        @Positive
-        Integer months,
-
-        @NotNull
-        @Positive
-        BigDecimal rent,
-
-        @Positive
-        BigDecimal deposit,
-
-        @NotNull
-        @Size(max = 40)
-        String taxTreatment,
-
-        @NotNull
-        BigDecimal taxRate,
-
-        @NotNull
-        String supplyClassification,
-
-        @NotNull
-        Boolean ownerTaxRegistered,
-
-        @Size(max = 40)
-        String municipalityStatus,
-
-        String municipalityAuthority,
-
-        String municipalityReference,
-
-        @Positive
-        BigDecimal municipalityFee,
-
-        Long previousLeaseId
-) {
-}
+    Integer months,
+    @NotNull BigDecimal rent,
+    @NotNull BigDecimal deposit,
+    @NotNull @Positive Long taxPolicyId)
+    implements RequestDto {}
