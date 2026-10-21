@@ -75,4 +75,10 @@ class AiAssistantTest {
     for(int i=0;i<10;i++)assertTrue(limiter.allow(1L));
     assertFalse(limiter.allow(1L));assertTrue(limiter.allow(2L));
   }
+  @Test void providerRateLimitIsExplicit() {
+    ChatClient client=mock(ChatClient.class);
+    when(client.prompt()).thenThrow(org.springframework.web.client.HttpClientErrorException.create(
+      org.springframework.http.HttpStatus.TOO_MANY_REQUESTS,"Too many requests",org.springframework.http.HttpHeaders.EMPTY,new byte[0],java.nio.charset.StandardCharsets.UTF_8));
+    try(var ai=new AiAssistant(client,1)){assertEquals("RATE_LIMITED",ai.suggest("AC issue","en").status());}
+  }
 }

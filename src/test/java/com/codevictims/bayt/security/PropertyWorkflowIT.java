@@ -70,7 +70,7 @@ class PropertyWorkflowIT {
   @Autowired OperationsService operations;
   @Autowired ReportService reports;
   @Autowired FileVault vault;
-  @Autowired AiAssistant ai;
+  @org.springframework.boot.test.mock.mockito.SpyBean AiAssistant ai;
   @Autowired PasswordEncoder passwords;
   @Autowired PlatformTransactionManager transactionManager;
   @Autowired MockMvc mvc;
@@ -733,5 +733,33 @@ class PropertyWorkflowIT {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.expiryDate").value(today.plusDays(10).toString()))
         .andExpect(jsonPath("$.storageKey").doesNotExist());
+  }
+  @Test
+  void unauthorizedAiNeverCallsProviderAndReviewIsExplicit() throws Exception {
+    Maintenance m=maintenance.create(in("unitId",unit.id,"description","AC not cooling","category","OTHER","urgent",false));
+    org.mockito.Mockito.clearInvocations(ai);
+    for(UserAccount outsider:List.of(owner2,tenantUser,vendor,admin)) {
+      mvc.perform(post("/api/maintenance/"+m.id+"/ai-suggestion")
+        .with(user(outsider.username)).with(csrf()).contentType("application/json")
+        .content("{\"language\":\"en\"}"))
+        .andExpect(status().is4xxClientError());
+    }
+    org.mockito.Mockito.verify(ai,org.mockito.Mockito.never()).suggest(org.mockito.ArgumentMatchers.anyString(),org.mockito.ArgumentMatchers.anyString());
+    login(owner);
+    var proposal=new AiAssistant.Result("PROPOSED",new AiAssistant.Suggestion("Cooling needs inspection","AC"));
+    maintenance.aiResult(m.id,proposal);
+    var pending=maintenance.list(building.id).get(0);
+    assertEquals("OTHER",pending.category);
+    assertTrue(pending.approvedSummary.isBlank());
+    maintenance.reject(m.id);
+    var rejected=maintenance.list(building.id).get(0);
+    assertEquals("REJECTED",rejected.aiStatus);
+    assertTrue(rejected.proposedSummary.isBlank());
+    maintenance.aiResult(m.id,proposal);
+    maintenance.approve(m.id,in("summary","Reviewed cooling problem","category","AC"));
+    var approved=maintenance.list(building.id).get(0);
+    assertEquals("APPROVED",approved.aiStatus);
+    assertEquals("Reviewed cooling problem",approved.approvedSummary);
+    assertEquals("AC",approved.category);
   }
 }
