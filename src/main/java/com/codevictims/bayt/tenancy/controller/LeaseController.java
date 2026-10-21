@@ -57,6 +57,13 @@ public class LeaseController {
     return LeaseMapper.toResponse(s.lease(RequestMapper.toInput(b), null));
   }
 
+  @PutMapping("/leases/{id}")
+  public LeaseResponse update(@PathVariable Long id, @jakarta.validation.Valid @RequestBody LeaseRequest b) {
+    return LeaseMapper.toResponse(s.update(id, RequestMapper.toInput(b)));
+  }
+  @DeleteMapping("/leases/{id}")
+  public void delete(@PathVariable Long id) { s.delete(id); }
+
   @PostMapping("/leases/{id}/renew")
   public LeaseResponse renew(
       @PathVariable Long id, @jakarta.validation.Valid @RequestBody LeaseRequest b) {

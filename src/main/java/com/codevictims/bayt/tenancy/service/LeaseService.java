@@ -137,6 +137,28 @@ public class LeaseService {
     return l;
   }
 
+  /** Issued financial terms are immutable; use renewal for new terms. */
+  public Lease update(Long id, Input in) {
+    Lease original=access.lease(id,true);
+    db.lock(Unit.class,original.unitId);
+    Lease l=db.lock(Lease.class,id);
+    if (!l.unitId.equals(in.id("unitId")) || !l.tenantId.equals(in.id("tenantId"))
+        || !l.startDate.equals(in.date("startDate"))
+        || !l.endDate.equals(in.date("startDate").plusMonths(in.integer("months",1,60,12)).minusDays(1))
+        || l.rent.compareTo(in.money("rent",true))!=0 || l.deposit.compareTo(in.money("deposit",false))!=0)
+      throw ApiException.conflict("ISSUED_TERMS_IMMUTABLE_USE_RENEWAL");
+    TaxPolicy policy=db.get(TaxPolicy.class,in.id("taxPolicyId"));
+    if (!policy.buildingId.equals(l.buildingId) || !policy.treatment.equals(l.taxTreatment)
+        || policy.rate.compareTo(l.taxRate)!=0) throw ApiException.conflict("ISSUED_TAX_IMMUTABLE");
+    audit.add(l.buildingId,"LEASE",l.id,"REVIEWED","");
+    return l;
+  }
+
+  public void delete(Long id) {
+    access.lease(id,true);
+    throw ApiException.conflict("LEASE_HAS_FINANCIAL_HISTORY_USE_TERMINATION");
+  }
+
   public Lease municipality(Long id, Input in) {
     Lease l = access.lease(id, true);
     l.municipalityStatus =
